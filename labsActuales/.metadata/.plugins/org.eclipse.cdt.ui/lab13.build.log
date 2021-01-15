@@ -1,0 +1,61 @@
+11:58:37 **** Build of configuration Debug for project lab13 ****
+cs-make all 
+'Building file: ../kernelcoop.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="kernelcoop.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"kernelcoop.d" -MT"kernelcoop.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "kernelcoop.o" "../kernelcoop.c"
+'Finished building: ../kernelcoop.c'
+' '
+'Building file: ../lab13.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="lab13.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"lab13.d" -MT"lab13.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "lab13.o" "../lab13.c"
+../lab13.c:65:6: warning: return type of 'main' is not 'int'
+'Finished building: ../lab13.c'
+' '
+'Building target: lab13.elf'
+'Invoking: ARM Sourcery Windows GCC C Linker'
+arm-none-eabi-gcc -T"../lab13.ld" -nostartfiles -L../../BSP/Debug -Wl,-Map,lab13.map -mcpu=arm7tdmi -g3 -gdwarf-2 -o "lab13.elf"  ./kernelcoop.o ./lab13.o   -lBSP
+./lab13.o: In function `main':
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:67: undefined reference to `sys_init'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:68: undefined reference to `timers_init'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:69: undefined reference to `uart0_init'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:72: undefined reference to `rtc_init'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:73: undefined reference to `pbs_init'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:74: undefined reference to `keypad_init'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:76: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:77: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:88: undefined reference to `timer0_open_tick'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:89: undefined reference to `pbs_open'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:93: undefined reference to `sleep'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:96: undefined reference to `uart0_puts'
+./lab13.o: In function `Task1':
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:111: undefined reference to `uart0_puts'
+./lab13.o: In function `Task2':
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:128: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:139: undefined reference to `keypad_scan'
+./lab13.o: In function `Task3':
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:166: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:170: undefined reference to `rtc_gettime'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:171: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:172: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:173: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:174: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:175: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:176: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:177: undefined reference to `uart0_puts'
+./lab13.o: In function `Task4':
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:189: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:195: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:196: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:197: undefined reference to `uart0_puts'
+./lab13.o: In function `Task5':
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:207: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:213: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:214: undefined reference to `uart0_puthex'
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:215: undefined reference to `uart0_puts'
+./lab13.o: In function `Task6':
+C:\hlocal\PSyD\labs\lab13\Debug/../lab13.c:227: undefined reference to `uart0_puts'
+collect2: ld returned 1 exit status
+cs-make: *** [lab13.elf] Error 1
+
+11:58:39 Build Finished (took 1s.485ms)
+

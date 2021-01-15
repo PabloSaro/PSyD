@@ -1,0 +1,155 @@
+11:58:29 **** Build of configuration Debug for project lab12 ****
+cs-make all 
+'Building file: ../os_port/os_cpu_a.asm'
+'Invoking: ARM Sourcery Windows GCC Assembler'
+arm-none-eabi-gcc -x assembler-with-cpp -I../../BSP/include -Wall -Wa,-adhlns="os_port/os_cpu_a.o.lst" -c -fmessage-length=0 -MMD -MP -MF"os_port/os_cpu_a.d" -MT"os_port/os_cpu_a.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "os_port/os_cpu_a.o" "../os_port/os_cpu_a.asm"
+'Finished building: ../os_port/os_cpu_a.asm'
+' '
+'Building file: ../os_port/os_cpu_c.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="os_port/os_cpu_c.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"os_port/os_cpu_c.d" -MT"os_port/os_cpu_c.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "os_port/os_cpu_c.o" "../os_port/os_cpu_c.c"
+'Finished building: ../os_port/os_cpu_c.c'
+' '
+'Building file: ../os_port/os_cpu_isr_wrapper.asm'
+'Invoking: ARM Sourcery Windows GCC Assembler'
+arm-none-eabi-gcc -x assembler-with-cpp -I../../BSP/include -Wall -Wa,-adhlns="os_port/os_cpu_isr_wrapper.o.lst" -c -fmessage-length=0 -MMD -MP -MF"os_port/os_cpu_isr_wrapper.d" -MT"os_port/os_cpu_isr_wrapper.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "os_port/os_cpu_isr_wrapper.o" "../os_port/os_cpu_isr_wrapper.asm"
+'Finished building: ../os_port/os_cpu_isr_wrapper.asm'
+' '
+'Building file: ../os_core/os_core.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="os_core/os_core.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"os_core/os_core.d" -MT"os_core/os_core.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "os_core/os_core.o" "../os_core/os_core.c"
+'Finished building: ../os_core/os_core.c'
+' '
+'Building file: ../os_core/os_dbg_r.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="os_core/os_dbg_r.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"os_core/os_dbg_r.d" -MT"os_core/os_dbg_r.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "os_core/os_dbg_r.o" "../os_core/os_dbg_r.c"
+'Finished building: ../os_core/os_dbg_r.c'
+' '
+'Building file: ../os_core/os_flag.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="os_core/os_flag.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"os_core/os_flag.d" -MT"os_core/os_flag.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "os_core/os_flag.o" "../os_core/os_flag.c"
+'Finished building: ../os_core/os_flag.c'
+' '
+'Building file: ../os_core/os_mbox.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="os_core/os_mbox.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"os_core/os_mbox.d" -MT"os_core/os_mbox.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "os_core/os_mbox.o" "../os_core/os_mbox.c"
+'Finished building: ../os_core/os_mbox.c'
+' '
+'Building file: ../os_core/os_mem.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="os_core/os_mem.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"os_core/os_mem.d" -MT"os_core/os_mem.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "os_core/os_mem.o" "../os_core/os_mem.c"
+'Finished building: ../os_core/os_mem.c'
+' '
+'Building file: ../os_core/os_mutex.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="os_core/os_mutex.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"os_core/os_mutex.d" -MT"os_core/os_mutex.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "os_core/os_mutex.o" "../os_core/os_mutex.c"
+'Finished building: ../os_core/os_mutex.c'
+' '
+'Building file: ../os_core/os_q.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="os_core/os_q.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"os_core/os_q.d" -MT"os_core/os_q.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "os_core/os_q.o" "../os_core/os_q.c"
+'Finished building: ../os_core/os_q.c'
+' '
+'Building file: ../os_core/os_sem.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="os_core/os_sem.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"os_core/os_sem.d" -MT"os_core/os_sem.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "os_core/os_sem.o" "../os_core/os_sem.c"
+'Finished building: ../os_core/os_sem.c'
+' '
+'Building file: ../os_core/os_task.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="os_core/os_task.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"os_core/os_task.d" -MT"os_core/os_task.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "os_core/os_task.o" "../os_core/os_task.c"
+'Finished building: ../os_core/os_task.c'
+' '
+'Building file: ../os_core/os_time.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="os_core/os_time.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"os_core/os_time.d" -MT"os_core/os_time.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "os_core/os_time.o" "../os_core/os_time.c"
+'Finished building: ../os_core/os_time.c'
+' '
+'Building file: ../os_core/ucos_ii.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="os_core/ucos_ii.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"os_core/ucos_ii.d" -MT"os_core/ucos_ii.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "os_core/ucos_ii.o" "../os_core/ucos_ii.c"
+'Finished building: ../os_core/ucos_ii.c'
+' '
+'Building file: ../lab12-isr-wrappers.asm'
+'Invoking: ARM Sourcery Windows GCC Assembler'
+arm-none-eabi-gcc -x assembler-with-cpp -I../../BSP/include -Wall -Wa,-adhlns="lab12-isr-wrappers.o.lst" -c -fmessage-length=0 -MMD -MP -MF"lab12-isr-wrappers.d" -MT"lab12-isr-wrappers.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "lab12-isr-wrappers.o" "../lab12-isr-wrappers.asm"
+'Finished building: ../lab12-isr-wrappers.asm'
+' '
+'Building file: ../lab12.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I.. -I../../BSP/include -I../os_core -I../os_port -O0 -Wall -Wa,-adhlns="lab12.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"lab12.d" -MT"lab12.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "lab12.o" "../lab12.c"
+../lab12.c:72:6: warning: return type of 'main' is not 'int'
+'Finished building: ../lab12.c'
+' '
+'Building target: lab12.elf'
+'Invoking: ARM Sourcery Windows GCC C Linker'
+arm-none-eabi-gcc -T"../lab12.ld" -nostartfiles -L../../BSP/Debug -Wl,-Map,lab12.map -mcpu=arm7tdmi -g3 -gdwarf-2 -o "lab12.elf"  ./os_port/os_cpu_a.o ./os_port/os_cpu_c.o ./os_port/os_cpu_isr_wrapper.o  ./os_core/os_core.o ./os_core/os_dbg_r.o ./os_core/os_flag.o ./os_core/os_mbox.o ./os_core/os_mem.o ./os_core/os_mutex.o ./os_core/os_q.o ./os_core/os_sem.o ./os_core/os_task.o ./os_core/os_time.o ./os_core/ucos_ii.o  ./lab12-isr-wrappers.o ./lab12.o   -lBSP
+./os_port/os_cpu_c.o: In function `OSTaskIdleHook':
+C:\hlocal\PSyD\labs\lab12\Debug/../os_port/os_cpu_c.c:86: undefined reference to `sleep'
+./lab12.o: In function `main':
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:75: undefined reference to `sys_init'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:76: undefined reference to `timers_init'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:77: undefined reference to `uart0_init'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:80: undefined reference to `rtc_init'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:81: undefined reference to `pbs_init'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:82: undefined reference to `keypad_init'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:84: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:85: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:86: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:87: undefined reference to `uart0_puts'
+./lab12.o: In function `TaskStart':
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:108: undefined reference to `timer0_open_tick'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:109: undefined reference to `pbs_open'
+./lab12.o: In function `Task1':
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:127: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:128: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:129: undefined reference to `uart0_puts'
+./lab12.o: In function `Task2':
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:149: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:150: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:151: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:157: undefined reference to `keypad_scan'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:162: undefined reference to `keypad_scan'
+./lab12.o: In function `Task3':
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:175: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:176: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:177: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:182: undefined reference to `rtc_gettime'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:184: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:185: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:186: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:187: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:188: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:189: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:190: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:191: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:192: undefined reference to `uart0_puts'
+./lab12.o: In function `Task4':
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:204: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:205: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:206: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:213: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:214: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:215: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:216: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:217: undefined reference to `uart0_puts'
+./lab12.o: In function `Task5':
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:229: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:230: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:231: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:238: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:239: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:240: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:241: undefined reference to `uart0_puthex'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:242: undefined reference to `uart0_puts'
+./lab12.o: In function `Task6':
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:253: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:254: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:255: undefined reference to `uart0_puts'
+./lab12.o: In function `isr_pb':
+C:\hlocal\PSyD\labs\lab12\Debug/../lab12.c:271: undefined reference to `uart0_puts'
+collect2: ld returned 1 exit status
+cs-make: *** [lab12.elf] Error 1
+
+11:58:37 Build Finished (took 7s.410ms)
+

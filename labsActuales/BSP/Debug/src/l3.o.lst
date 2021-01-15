@@ -1,0 +1,241 @@
+   1              		.cpu arm7tdmi
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 18, 4
+  11              		.file	"l3.c"
+  21              	.Ltext0:
+  22              		.file 1 "../src/l3.c"
+ 1705              		.align	2
+ 1706              		.global	L3_init
+ 1708              	L3_init:
+ 1709              	.LFB0:
+   1:../src/l3.c   **** 
+   2:../src/l3.c   **** #include <s3c44b0x.h>
+   3:../src/l3.c   **** #include <l3.h>
+   4:../src/l3.c   **** #include <leds.h>
+   5:../src/l3.c   **** 
+   6:../src/l3.c   **** #define SHORT_DELAY    { int8 j; for( j=0; j<4; j++ ); }
+   7:../src/l3.c   **** 
+   8:../src/l3.c   **** 
+   9:../src/l3.c   **** void L3_init( void )
+  10:../src/l3.c   **** {
+ 1710              		.loc 1 10 0
+ 1711              		.cfi_startproc
+ 1712              		@ Function supports interworking.
+ 1713              		@ args = 0, pretend = 0, frame = 0
+ 1714              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1715 0000 0DC0A0E1 		mov	ip, sp
+ 1716              	.LCFI0:
+ 1717              		.cfi_def_cfa_register 12
+ 1718 0004 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+ 1719 0008 04B04CE2 		sub	fp, ip, #4
+ 1720              		.cfi_offset 14, -8
+ 1721              		.cfi_offset 13, -12
+ 1722              		.cfi_offset 11, -16
+ 1723              	.LCFI1:
+ 1724              		.cfi_def_cfa 11, 4
+  11:../src/l3.c   **** 	PDATB =  (1 << 5) | (1 << 4);
+ 1725              		.loc 1 11 0
+ 1726 000c 10309FE5 		ldr	r3, .L2
+ 1727 0010 3020A0E3 		mov	r2, #48
+ 1728 0014 002083E5 		str	r2, [r3, #0]
+  12:../src/l3.c   **** }
+ 1729              		.loc 1 12 0
+ 1730 0018 0CD04BE2 		sub	sp, fp, #12
+ 1731 001c 00689DE8 		ldmfd	sp, {fp, sp, lr}
+ 1732 0020 1EFF2FE1 		bx	lr
+ 1733              	.L3:
+ 1734              		.align	2
+ 1735              	.L2:
+ 1736 0024 0C00D201 		.word	30539788
+ 1737              		.cfi_endproc
+ 1738              	.LFE0:
+ 1740              		.align	2
+ 1741              		.global	L3_putByte
+ 1743              	L3_putByte:
+ 1744              	.LFB1:
+  13:../src/l3.c   **** 
+  14:../src/l3.c   **** void L3_putByte( uint8 byte, uint8 mode )
+  15:../src/l3.c   **** {
+ 1745              		.loc 1 15 0
+ 1746              		.cfi_startproc
+ 1747              		@ Function supports interworking.
+ 1748              		@ args = 0, pretend = 0, frame = 16
+ 1749              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1750 0028 0DC0A0E1 		mov	ip, sp
+ 1751              	.LCFI2:
+ 1752              		.cfi_def_cfa_register 12
+ 1753 002c 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+ 1754 0030 04B04CE2 		sub	fp, ip, #4
+ 1755              		.cfi_offset 14, -8
+ 1756              		.cfi_offset 13, -12
+ 1757              		.cfi_offset 11, -16
+ 1758              	.LCFI3:
+ 1759              		.cfi_def_cfa 11, 4
+ 1760 0034 10D04DE2 		sub	sp, sp, #16
+ 1761 0038 0020A0E1 		mov	r2, r0
+ 1762 003c 0130A0E1 		mov	r3, r1
+ 1763 0040 15204BE5 		strb	r2, [fp, #-21]
+ 1764 0044 16304BE5 		strb	r3, [fp, #-22]
+  16:../src/l3.c   ****     uint8 i;
+  17:../src/l3.c   ****     uint8 rled, lled;
+  18:../src/l3.c   ****     
+  19:../src/l3.c   ****     rled = !led_status( RIGHT_LED );
+ 1765              		.loc 1 19 0
+ 1766 0048 0200A0E3 		mov	r0, #2
+ 1767 004c FEFFFFEB 		bl	led_status
+ 1768 0050 0030A0E1 		mov	r3, r0
+ 1769 0054 000053E3 		cmp	r3, #0
+ 1770 0058 0030A013 		movne	r3, #0
+ 1771 005c 0130A003 		moveq	r3, #1
+ 1772 0060 11304BE5 		strb	r3, [fp, #-17]
+  20:../src/l3.c   ****     lled = !led_status( LEFT_LED );    
+ 1773              		.loc 1 20 0
+ 1774 0064 0100A0E3 		mov	r0, #1
+ 1775 0068 FEFFFFEB 		bl	led_status
+ 1776 006c 0030A0E1 		mov	r3, r0
+ 1777 0070 000053E3 		cmp	r3, #0
+ 1778 0074 0030A013 		movne	r3, #0
+ 1779 0078 0130A003 		moveq	r3, #1
+ 1780 007c 12304BE5 		strb	r3, [fp, #-18]
+  21:../src/l3.c   ****    
+  22:../src/l3.c   ****     PDATB =  (1 << 5) | (mode << 4);
+ 1781              		.loc 1 22 0
+ 1782 0080 04319FE5 		ldr	r3, .L13
+ 1783 0084 16205BE5 		ldrb	r2, [fp, #-22]	@ zero_extendqisi2
+ 1784 0088 0222A0E1 		mov	r2, r2, asl #4
+ 1785 008c 202082E3 		orr	r2, r2, #32
+ 1786 0090 002083E5 		str	r2, [r3, #0]
+ 1787              	.LBB2:
+  23:../src/l3.c   ****     SHORT_DELAY;
+ 1788              		.loc 1 23 0
+ 1789 0094 0030A0E3 		mov	r3, #0
+ 1790 0098 0E304BE5 		strb	r3, [fp, #-14]
+ 1791 009c 020000EA 		b	.L5
+ 1792              	.L6:
+ 1793              		.loc 1 23 0 is_stmt 0 discriminator 2
+ 1794 00a0 0E305BE5 		ldrb	r3, [fp, #-14]
+ 1795 00a4 013083E2 		add	r3, r3, #1
+ 1796 00a8 0E304BE5 		strb	r3, [fp, #-14]
+ 1797              	.L5:
+ 1798              		.loc 1 23 0 discriminator 1
+ 1799 00ac DE305BE1 		ldrsb	r3, [fp, #-14]
+ 1800 00b0 030053E3 		cmp	r3, #3
+ 1801 00b4 F9FFFFDA 		ble	.L6
+ 1802              	.LBE2:
+  24:../src/l3.c   **** 
+  25:../src/l3.c   ****     for( i=0; i<8; i++ )
+ 1803              		.loc 1 25 0 is_stmt 1
+ 1804 00b8 0030A0E3 		mov	r3, #0
+ 1805 00bc 0D304BE5 		strb	r3, [fp, #-13]
+ 1806 00c0 230000EA 		b	.L7
+ 1807              	.L12:
+  26:../src/l3.c   ****     {
+  27:../src/l3.c   ****         PDATB = (0 << 5) | (mode << 4);
+ 1808              		.loc 1 27 0
+ 1809 00c4 C0309FE5 		ldr	r3, .L13
+ 1810 00c8 16205BE5 		ldrb	r2, [fp, #-22]	@ zero_extendqisi2
+ 1811 00cc 0222A0E1 		mov	r2, r2, asl #4
+ 1812 00d0 002083E5 		str	r2, [r3, #0]
+  28:../src/l3.c   ****         PDATA = ((byte >>i) << 9);
+ 1813              		.loc 1 28 0
+ 1814 00d4 B4309FE5 		ldr	r3, .L13+4
+ 1815 00d8 15105BE5 		ldrb	r1, [fp, #-21]	@ zero_extendqisi2
+ 1816 00dc 0D205BE5 		ldrb	r2, [fp, #-13]	@ zero_extendqisi2
+ 1817 00e0 5122A0E1 		mov	r2, r1, asr r2
+ 1818 00e4 8224A0E1 		mov	r2, r2, asl #9
+ 1819 00e8 002083E5 		str	r2, [r3, #0]
+ 1820              	.LBB3:
+  29:../src/l3.c   ****         SHORT_DELAY;    
+ 1821              		.loc 1 29 0
+ 1822 00ec 0030A0E3 		mov	r3, #0
+ 1823 00f0 0F304BE5 		strb	r3, [fp, #-15]
+ 1824 00f4 020000EA 		b	.L8
+ 1825              	.L9:
+ 1826              		.loc 1 29 0 is_stmt 0 discriminator 2
+ 1827 00f8 0F305BE5 		ldrb	r3, [fp, #-15]
+ 1828 00fc 013083E2 		add	r3, r3, #1
+ 1829 0100 0F304BE5 		strb	r3, [fp, #-15]
+ 1830              	.L8:
+ 1831              		.loc 1 29 0 discriminator 1
+ 1832 0104 DF305BE1 		ldrsb	r3, [fp, #-15]
+ 1833 0108 030053E3 		cmp	r3, #3
+ 1834 010c F9FFFFDA 		ble	.L9
+ 1835              	.LBE3:
+  30:../src/l3.c   ****         PDATB = (1 << 5) | (mode << 4);
+ 1836              		.loc 1 30 0 is_stmt 1
+ 1837 0110 74309FE5 		ldr	r3, .L13
+ 1838 0114 16205BE5 		ldrb	r2, [fp, #-22]	@ zero_extendqisi2
+ 1839 0118 0222A0E1 		mov	r2, r2, asl #4
+ 1840 011c 202082E3 		orr	r2, r2, #32
+ 1841 0120 002083E5 		str	r2, [r3, #0]
+ 1842              	.LBB4:
+  31:../src/l3.c   ****         SHORT_DELAY;
+ 1843              		.loc 1 31 0
+ 1844 0124 0030A0E3 		mov	r3, #0
+ 1845 0128 10304BE5 		strb	r3, [fp, #-16]
+ 1846 012c 020000EA 		b	.L10
+ 1847              	.L11:
+ 1848              		.loc 1 31 0 is_stmt 0 discriminator 2
+ 1849 0130 10305BE5 		ldrb	r3, [fp, #-16]
+ 1850 0134 013083E2 		add	r3, r3, #1
+ 1851 0138 10304BE5 		strb	r3, [fp, #-16]
+ 1852              	.L10:
+ 1853              		.loc 1 31 0 discriminator 1
+ 1854 013c D0315BE1 		ldrsb	r3, [fp, #-16]
+ 1855 0140 030053E3 		cmp	r3, #3
+ 1856 0144 F9FFFFDA 		ble	.L11
+ 1857              	.LBE4:
+  25:../src/l3.c   ****     for( i=0; i<8; i++ )
+ 1858              		.loc 1 25 0 is_stmt 1
+ 1859 0148 0D305BE5 		ldrb	r3, [fp, #-13]
+ 1860 014c 013083E2 		add	r3, r3, #1
+ 1861 0150 0D304BE5 		strb	r3, [fp, #-13]
+ 1862              	.L7:
+  25:../src/l3.c   ****     for( i=0; i<8; i++ )
+ 1863              		.loc 1 25 0 is_stmt 0 discriminator 1
+ 1864 0154 0D305BE5 		ldrb	r3, [fp, #-13]	@ zero_extendqisi2
+ 1865 0158 070053E3 		cmp	r3, #7
+ 1866 015c D8FFFF9A 		bls	.L12
+  32:../src/l3.c   ****     }
+  33:../src/l3.c   ****     PDATB = (rled << 10) | (lled << 9) | (1 << 5) | (1 << 4);   
+ 1867              		.loc 1 33 0 is_stmt 1
+ 1868 0160 24309FE5 		ldr	r3, .L13
+ 1869 0164 11205BE5 		ldrb	r2, [fp, #-17]	@ zero_extendqisi2
+ 1870 0168 0215A0E1 		mov	r1, r2, asl #10
+ 1871 016c 12205BE5 		ldrb	r2, [fp, #-18]	@ zero_extendqisi2
+ 1872 0170 8224A0E1 		mov	r2, r2, asl #9
+ 1873 0174 022081E1 		orr	r2, r1, r2
+ 1874 0178 302082E3 		orr	r2, r2, #48
+ 1875 017c 002083E5 		str	r2, [r3, #0]
+  34:../src/l3.c   **** }
+ 1876              		.loc 1 34 0
+ 1877 0180 0CD04BE2 		sub	sp, fp, #12
+ 1878 0184 00689DE8 		ldmfd	sp, {fp, sp, lr}
+ 1879 0188 1EFF2FE1 		bx	lr
+ 1880              	.L14:
+ 1881              		.align	2
+ 1882              	.L13:
+ 1883 018c 0C00D201 		.word	30539788
+ 1884 0190 0400D201 		.word	30539780
+ 1885              		.cfi_endproc
+ 1886              	.LFE1:
+ 1888              	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 l3.c
+C:\Users\USUARI~1\AppData\Local\Temp\ccKSQUVC.s:1705   .text:00000000 $a
+C:\Users\USUARI~1\AppData\Local\Temp\ccKSQUVC.s:1708   .text:00000000 L3_init
+C:\Users\USUARI~1\AppData\Local\Temp\ccKSQUVC.s:1736   .text:00000024 $d
+C:\Users\USUARI~1\AppData\Local\Temp\ccKSQUVC.s:1740   .text:00000028 $a
+C:\Users\USUARI~1\AppData\Local\Temp\ccKSQUVC.s:1743   .text:00000028 L3_putByte
+C:\Users\USUARI~1\AppData\Local\Temp\ccKSQUVC.s:1883   .text:0000018c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+led_status

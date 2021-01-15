@@ -1,0 +1,93 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ./lab10.o
+LOAD ../../BSP/Debug\libBSP.a
+START GROUP
+LOAD c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a
+LOAD c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib\libc.a
+END GROUP
+                0x0c100000                . = 0xc100000
+
+.text           0x0c100000      0xac8
+ *(.text)
+ .text          0x0c100000      0xac8 ./lab10.o
+                0x0c100000                main
+                0x0c100728                lcd_draw_grid
+
+.glue_7         0x0c100ac8        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x0c100ac8        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x0c100ac8        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x0c100ac8        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.rodata         0x0c100ac8       0x54
+ *(.rodata)
+ .rodata        0x0c100ac8       0x54 ./lab10.o
+
+.data           0x0c100b1c        0x0
+ *(.data)
+ .data          0x0c100b1c        0x0 ./lab10.o
+
+.bss            0x0c100b1c        0x0
+ *(.bss)
+ .bss           0x0c100b1c        0x0 ./lab10.o
+                0x0c100b1c                end = .
+OUTPUT(lab10.elf elf32-littlearm)
+
+.debug_abbrev   0x00000000       0x74
+ .debug_abbrev  0x00000000       0x74 ./lab10.o
+
+.debug_info     0x00000000       0xc1
+ .debug_info    0x00000000       0xc1 ./lab10.o
+
+.debug_line     0x00000000      0x1ab
+ .debug_line    0x00000000      0x1ab ./lab10.o
+
+.debug_macinfo  0x00000000     0x4aed
+ .debug_macinfo
+                0x00000000     0x4aed ./lab10.o
+
+.debug_loc      0x00000000       0x58
+ .debug_loc     0x00000000       0x58 ./lab10.o
+
+.debug_pubnames
+                0x00000000       0x2d
+ .debug_pubnames
+                0x00000000       0x2d ./lab10.o
+
+.debug_pubtypes
+                0x00000000       0x1d
+ .debug_pubtypes
+                0x00000000       0x1d ./lab10.o
+
+.debug_aranges  0x00000000       0x20
+ .debug_aranges
+                0x00000000       0x20 ./lab10.o
+
+.debug_str      0x00000000       0xa1
+ .debug_str     0x00000000       0xa1 ./lab10.o
+                                 0xba (size before relaxing)
+
+.comment        0x00000000       0x2a
+ .comment       0x00000000       0x2a ./lab10.o
+                                 0x2b (size before relaxing)
+
+.ARM.attributes
+                0x00000000       0x32
+ .ARM.attributes
+                0x00000000       0x32 ./lab10.o
+
+.debug_frame    0x00000000       0x50
+ .debug_frame   0x00000000       0x50 ./lab10.o

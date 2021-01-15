@@ -1,0 +1,1279 @@
+   1              		.cpu arm7tdmi
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 18, 4
+  11              		.file	"eventGenerator.c"
+  21              	.Ltext0:
+  22              		.file 1 "../eventGenerator.c"
+ 2112              		.align	2
+ 2113              	efifo:
+ 2114 0000 00000000 		.space	2310
+ 2114      00000000 
+ 2114      00000000 
+ 2114      00000000 
+ 2114      00000000 
+ 2115              		.text
+ 2116              		.align	2
+ 2117              		.global	any_event
+ 2119              	any_event:
+ 2120              	.LFB0:
+   1:../eventGenerator.c **** #include <s3c44b0x.h>
+   2:../eventGenerator.c **** #include <s3cev40.h>
+   3:../eventGenerator.c **** #include <system.h>
+   4:../eventGenerator.c **** #include <timers.h>
+   5:../eventGenerator.c **** #include <rtc.h>
+   6:../eventGenerator.c **** #include <leds.h>
+   7:../eventGenerator.c **** #include <segs.h>
+   8:../eventGenerator.c **** #include <keypad.h>
+   9:../eventGenerator.c **** #include <uart.h>
+  10:../eventGenerator.c **** #include "eventGenerator.h"
+  11:../eventGenerator.c **** 
+  12:../eventGenerator.c **** /*******************************************************************/
+  13:../eventGenerator.c **** /*******************************************************************/
+  14:../eventGenerator.c **** 
+  15:../eventGenerator.c **** #define MAXEVENTS (256)    // Número máximo de eventos encolables
+  16:../eventGenerator.c **** 
+  17:../eventGenerator.c **** static volatile struct {
+  18:../eventGenerator.c **** 	event_t buffer[MAXEVENTS];
+  19:../eventGenerator.c **** 	uint16  size;
+  20:../eventGenerator.c **** 	uint16  head;
+  21:../eventGenerator.c **** 	uint16  tail;
+  22:../eventGenerator.c **** } efifo;
+  23:../eventGenerator.c **** 
+  24:../eventGenerator.c **** static void efifo_enqueue( event_t *pevent );
+  25:../eventGenerator.c **** static void efifo_dequeue( event_t *pevent );
+  26:../eventGenerator.c **** static boolean efifo_is_empty( void );
+  27:../eventGenerator.c **** static boolean efifo_is_full( void );
+  28:../eventGenerator.c **** 
+  29:../eventGenerator.c **** /*******************************************************************/
+  30:../eventGenerator.c **** 
+  31:../eventGenerator.c **** boolean any_event( void )
+  32:../eventGenerator.c **** {
+ 2121              		.loc 1 32 0
+ 2122              		.cfi_startproc
+ 2123              		@ Function supports interworking.
+ 2124              		@ args = 0, pretend = 0, frame = 0
+ 2125              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2126 0000 0DC0A0E1 		mov	ip, sp
+ 2127              	.LCFI0:
+ 2128              		.cfi_def_cfa_register 12
+ 2129 0004 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+ 2130 0008 04B04CE2 		sub	fp, ip, #4
+ 2131              		.cfi_offset 14, -8
+ 2132              		.cfi_offset 13, -12
+ 2133              		.cfi_offset 11, -16
+ 2134              	.LCFI1:
+ 2135              		.cfi_def_cfa 11, 4
+  33:../eventGenerator.c **** 	return !efifo_is_empty();
+ 2136              		.loc 1 33 0
+ 2137 000c EE0000EB 		bl	efifo_is_empty
+ 2138 0010 0030A0E1 		mov	r3, r0
+ 2139 0014 000053E3 		cmp	r3, #0
+ 2140 0018 0030A013 		movne	r3, #0
+ 2141 001c 0130A003 		moveq	r3, #1
+ 2142 0020 FF3003E2 		and	r3, r3, #255
+  34:../eventGenerator.c **** }
+ 2143              		.loc 1 34 0
+ 2144 0024 0300A0E1 		mov	r0, r3
+ 2145 0028 0CD04BE2 		sub	sp, fp, #12
+ 2146 002c 00689DE8 		ldmfd	sp, {fp, sp, lr}
+ 2147 0030 1EFF2FE1 		bx	lr
+ 2148              		.cfi_endproc
+ 2149              	.LFE0:
+ 2151              		.align	2
+ 2152              		.global	get_event
+ 2154              	get_event:
+ 2155              	.LFB1:
+  35:../eventGenerator.c **** 
+  36:../eventGenerator.c **** void get_event( event_t *pevent )
+  37:../eventGenerator.c **** {
+ 2156              		.loc 1 37 0
+ 2157              		.cfi_startproc
+ 2158              		@ Function supports interworking.
+ 2159              		@ args = 0, pretend = 0, frame = 8
+ 2160              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2161 0034 0DC0A0E1 		mov	ip, sp
+ 2162              	.LCFI2:
+ 2163              		.cfi_def_cfa_register 12
+ 2164 0038 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+ 2165 003c 04B04CE2 		sub	fp, ip, #4
+ 2166              		.cfi_offset 14, -8
+ 2167              		.cfi_offset 13, -12
+ 2168              		.cfi_offset 11, -16
+ 2169              	.LCFI3:
+ 2170              		.cfi_def_cfa 11, 4
+ 2171 0040 08D04DE2 		sub	sp, sp, #8
+ 2172 0044 10000BE5 		str	r0, [fp, #-16]
+  38:../eventGenerator.c **** 	efifo_dequeue( pevent );
+ 2173              		.loc 1 38 0
+ 2174 0048 10001BE5 		ldr	r0, [fp, #-16]
+ 2175 004c 7B0000EB 		bl	efifo_dequeue
+  39:../eventGenerator.c **** }
+ 2176              		.loc 1 39 0
+ 2177 0050 0CD04BE2 		sub	sp, fp, #12
+ 2178 0054 00689DE8 		ldmfd	sp, {fp, sp, lr}
+ 2179 0058 1EFF2FE1 		bx	lr
+ 2180              		.cfi_endproc
+ 2181              	.LFE1:
+ 2183              		.align	2
+ 2185              	efifo_init:
+ 2186              	.LFB2:
+  40:../eventGenerator.c **** 
+  41:../eventGenerator.c **** /*******************************************************************/
+  42:../eventGenerator.c **** 
+  43:../eventGenerator.c **** static void efifo_init( void )
+  44:../eventGenerator.c **** {
+ 2187              		.loc 1 44 0
+ 2188              		.cfi_startproc
+ 2189              		@ Function supports interworking.
+ 2190              		@ args = 0, pretend = 0, frame = 0
+ 2191              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2192 005c 0DC0A0E1 		mov	ip, sp
+ 2193              	.LCFI4:
+ 2194              		.cfi_def_cfa_register 12
+ 2195 0060 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+ 2196 0064 04B04CE2 		sub	fp, ip, #4
+ 2197              		.cfi_offset 14, -8
+ 2198              		.cfi_offset 13, -12
+ 2199              		.cfi_offset 11, -16
+ 2200              	.LCFI5:
+ 2201              		.cfi_def_cfa 11, 4
+  45:../eventGenerator.c **** 	efifo.head = 0;
+ 2202              		.loc 1 45 0
+ 2203 0068 34209FE5 		ldr	r2, .L4
+ 2204 006c 34309FE5 		ldr	r3, .L4+4
+ 2205 0070 0010A0E3 		mov	r1, #0
+ 2206 0074 B31082E1 		strh	r1, [r2, r3]	@ movhi
+  46:../eventGenerator.c **** 	efifo.tail = 0;
+ 2207              		.loc 1 46 0
+ 2208 0078 24209FE5 		ldr	r2, .L4
+ 2209 007c 28309FE5 		ldr	r3, .L4+8
+ 2210 0080 0010A0E3 		mov	r1, #0
+ 2211 0084 B31082E1 		strh	r1, [r2, r3]	@ movhi
+  47:../eventGenerator.c **** 	efifo.size = 0;
+ 2212              		.loc 1 47 0
+ 2213 0088 14209FE5 		ldr	r2, .L4
+ 2214 008c 093CA0E3 		mov	r3, #2304
+ 2215 0090 0010A0E3 		mov	r1, #0
+ 2216 0094 B31082E1 		strh	r1, [r2, r3]	@ movhi
+  48:../eventGenerator.c **** }
+ 2217              		.loc 1 48 0
+ 2218 0098 0CD04BE2 		sub	sp, fp, #12
+ 2219 009c 00689DE8 		ldmfd	sp, {fp, sp, lr}
+ 2220 00a0 1EFF2FE1 		bx	lr
+ 2221              	.L5:
+ 2222              		.align	2
+ 2223              	.L4:
+ 2224 00a4 00000000 		.word	efifo
+ 2225 00a8 02090000 		.word	2306
+ 2226 00ac 04090000 		.word	2308
+ 2227              		.cfi_endproc
+ 2228              	.LFE2:
+ 2230              		.align	2
+ 2232              	efifo_enqueue:
+ 2233              	.LFB3:
+  49:../eventGenerator.c **** 
+  50:../eventGenerator.c **** static void efifo_enqueue( event_t *pevent )
+  51:../eventGenerator.c **** {
+ 2234              		.loc 1 51 0
+ 2235              		.cfi_startproc
+ 2236              		@ Function supports interworking.
+ 2237              		@ args = 0, pretend = 0, frame = 8
+ 2238              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2239 00b0 0DC0A0E1 		mov	ip, sp
+ 2240              	.LCFI6:
+ 2241              		.cfi_def_cfa_register 12
+ 2242 00b4 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+ 2243 00b8 04B04CE2 		sub	fp, ip, #4
+ 2244              		.cfi_offset 14, -8
+ 2245              		.cfi_offset 13, -12
+ 2246              		.cfi_offset 11, -16
+ 2247              	.LCFI7:
+ 2248              		.cfi_def_cfa 11, 4
+ 2249 00bc 08D04DE2 		sub	sp, sp, #8
+ 2250 00c0 10000BE5 		str	r0, [fp, #-16]
+  52:../eventGenerator.c **** 	efifo.buffer[efifo.tail].time = pevent->time;
+ 2251              		.loc 1 52 0
+ 2252 00c4 6C219FE5 		ldr	r2, .L8
+ 2253 00c8 6C319FE5 		ldr	r3, .L8+4
+ 2254 00cc B33092E1 		ldrh	r3, [r2, r3]	@ movhi
+ 2255 00d0 0338A0E1 		mov	r3, r3, asl #16
+ 2256 00d4 2338A0E1 		mov	r3, r3, lsr #16
+ 2257 00d8 0320A0E1 		mov	r2, r3
+ 2258 00dc 54119FE5 		ldr	r1, .L8
+ 2259 00e0 0230A0E1 		mov	r3, r2
+ 2260 00e4 8331A0E1 		mov	r3, r3, asl #3
+ 2261 00e8 023083E0 		add	r3, r3, r2
+ 2262 00ec 032081E0 		add	r2, r1, r3
+ 2263 00f0 10301BE5 		ldr	r3, [fp, #-16]
+ 2264 00f4 0210A0E1 		mov	r1, r2
+ 2265 00f8 0320A0E1 		mov	r2, r3
+ 2266 00fc 0730A0E3 		mov	r3, #7
+ 2267 0100 0100A0E1 		mov	r0, r1
+ 2268 0104 0210A0E1 		mov	r1, r2
+ 2269 0108 0320A0E1 		mov	r2, r3
+ 2270 010c FEFFFFEB 		bl	memcpy
+  53:../eventGenerator.c **** 	efifo.buffer[efifo.tail].id   = pevent->id;
+ 2271              		.loc 1 53 0
+ 2272 0110 20219FE5 		ldr	r2, .L8
+ 2273 0114 20319FE5 		ldr	r3, .L8+4
+ 2274 0118 B33092E1 		ldrh	r3, [r2, r3]	@ movhi
+ 2275 011c 0338A0E1 		mov	r3, r3, asl #16
+ 2276 0120 2338A0E1 		mov	r3, r3, lsr #16
+ 2277 0124 0320A0E1 		mov	r2, r3
+ 2278 0128 10301BE5 		ldr	r3, [fp, #-16]
+ 2279 012c 0710D3E5 		ldrb	r1, [r3, #7]	@ zero_extendqisi2
+ 2280 0130 00019FE5 		ldr	r0, .L8
+ 2281 0134 0230A0E1 		mov	r3, r2
+ 2282 0138 8331A0E1 		mov	r3, r3, asl #3
+ 2283 013c 023083E0 		add	r3, r3, r2
+ 2284 0140 033080E0 		add	r3, r0, r3
+ 2285 0144 0120A0E1 		mov	r2, r1
+ 2286 0148 0720C3E5 		strb	r2, [r3, #7]
+  54:../eventGenerator.c **** 	efifo.buffer[efifo.tail].arg  = pevent->arg;
+ 2287              		.loc 1 54 0
+ 2288 014c E4209FE5 		ldr	r2, .L8
+ 2289 0150 E4309FE5 		ldr	r3, .L8+4
+ 2290 0154 B33092E1 		ldrh	r3, [r2, r3]	@ movhi
+ 2291 0158 0338A0E1 		mov	r3, r3, asl #16
+ 2292 015c 2338A0E1 		mov	r3, r3, lsr #16
+ 2293 0160 0320A0E1 		mov	r2, r3
+ 2294 0164 10301BE5 		ldr	r3, [fp, #-16]
+ 2295 0168 0810D3E5 		ldrb	r1, [r3, #8]	@ zero_extendqisi2
+ 2296 016c C4C09FE5 		ldr	ip, .L8
+ 2297 0170 0800A0E3 		mov	r0, #8
+ 2298 0174 0230A0E1 		mov	r3, r2
+ 2299 0178 8331A0E1 		mov	r3, r3, asl #3
+ 2300 017c 023083E0 		add	r3, r3, r2
+ 2301 0180 03308CE0 		add	r3, ip, r3
+ 2302 0184 003083E0 		add	r3, r3, r0
+ 2303 0188 0120A0E1 		mov	r2, r1
+ 2304 018c 0020C3E5 		strb	r2, [r3, #0]
+  55:../eventGenerator.c ****     efifo.tail++;
+ 2305              		.loc 1 55 0
+ 2306 0190 A0209FE5 		ldr	r2, .L8
+ 2307 0194 A0309FE5 		ldr	r3, .L8+4
+ 2308 0198 B33092E1 		ldrh	r3, [r2, r3]	@ movhi
+ 2309 019c 0338A0E1 		mov	r3, r3, asl #16
+ 2310 01a0 2338A0E1 		mov	r3, r3, lsr #16
+ 2311 01a4 013083E2 		add	r3, r3, #1
+ 2312 01a8 0338A0E1 		mov	r3, r3, asl #16
+ 2313 01ac 2318A0E1 		mov	r1, r3, lsr #16
+ 2314 01b0 80209FE5 		ldr	r2, .L8
+ 2315 01b4 80309FE5 		ldr	r3, .L8+4
+ 2316 01b8 B31082E1 		strh	r1, [r2, r3]	@ movhi
+  56:../eventGenerator.c **** 	if( efifo.tail == MAXEVENTS )
+ 2317              		.loc 1 56 0
+ 2318 01bc 74209FE5 		ldr	r2, .L8
+ 2319 01c0 74309FE5 		ldr	r3, .L8+4
+ 2320 01c4 B33092E1 		ldrh	r3, [r2, r3]	@ movhi
+ 2321 01c8 0338A0E1 		mov	r3, r3, asl #16
+ 2322 01cc 2338A0E1 		mov	r3, r3, lsr #16
+ 2323 01d0 010C53E3 		cmp	r3, #256
+ 2324 01d4 0300001A 		bne	.L7
+  57:../eventGenerator.c **** 		efifo.tail = 0;
+ 2325              		.loc 1 57 0
+ 2326 01d8 58209FE5 		ldr	r2, .L8
+ 2327 01dc 58309FE5 		ldr	r3, .L8+4
+ 2328 01e0 0010A0E3 		mov	r1, #0
+ 2329 01e4 B31082E1 		strh	r1, [r2, r3]	@ movhi
+ 2330              	.L7:
+  58:../eventGenerator.c **** 	INT_DISABLE;
+ 2331              		.loc 1 58 0
+ 2332              	@ 58 "../eventGenerator.c" 1
+ 2333 01e8 00000FE1 		mrs   r0, cpsr
+ 2334              	@ 0 "" 2
+ 2335              	@ 58 "../eventGenerator.c" 1
+ 2336 01ec 04002DE5 		stmfd sp!, {r0}
+ 2337              	@ 0 "" 2
+ 2338              	@ 58 "../eventGenerator.c" 1
+ 2339 01f0 C00080E3 		orr   r0, r0, #0b11000000
+ 2340              	@ 0 "" 2
+ 2341              	@ 58 "../eventGenerator.c" 1
+ 2342 01f4 00F021E1 		msr   cpsr_c, r0
+ 2343              	@ 0 "" 2
+  59:../eventGenerator.c **** 	efifo.size++;
+ 2344              		.loc 1 59 0
+ 2345 01f8 38209FE5 		ldr	r2, .L8
+ 2346 01fc 093CA0E3 		mov	r3, #2304
+ 2347 0200 B33092E1 		ldrh	r3, [r2, r3]	@ movhi
+ 2348 0204 0338A0E1 		mov	r3, r3, asl #16
+ 2349 0208 2338A0E1 		mov	r3, r3, lsr #16
+ 2350 020c 013083E2 		add	r3, r3, #1
+ 2351 0210 0338A0E1 		mov	r3, r3, asl #16
+ 2352 0214 2318A0E1 		mov	r1, r3, lsr #16
+ 2353 0218 18209FE5 		ldr	r2, .L8
+ 2354 021c 093CA0E3 		mov	r3, #2304
+ 2355 0220 B31082E1 		strh	r1, [r2, r3]	@ movhi
+  60:../eventGenerator.c **** 	INT_ENABLE;
+ 2356              		.loc 1 60 0
+ 2357              	@ 60 "../eventGenerator.c" 1
+ 2358 0224 04009DE4 		ldmfd sp!, {r0}
+ 2359              	@ 0 "" 2
+ 2360              	@ 60 "../eventGenerator.c" 1
+ 2361 0228 00F021E1 		msr   cpsr_c, r0
+ 2362              	@ 0 "" 2
+  61:../eventGenerator.c **** }
+ 2363              		.loc 1 61 0
+ 2364 022c 0CD04BE2 		sub	sp, fp, #12
+ 2365 0230 00689DE8 		ldmfd	sp, {fp, sp, lr}
+ 2366 0234 1EFF2FE1 		bx	lr
+ 2367              	.L9:
+ 2368              		.align	2
+ 2369              	.L8:
+ 2370 0238 00000000 		.word	efifo
+ 2371 023c 04090000 		.word	2308
+ 2372              		.cfi_endproc
+ 2373              	.LFE3:
+ 2375              		.align	2
+ 2377              	efifo_dequeue:
+ 2378              	.LFB4:
+  62:../eventGenerator.c **** 
+  63:../eventGenerator.c **** static void efifo_dequeue( event_t *pevent )
+  64:../eventGenerator.c **** {
+ 2379              		.loc 1 64 0
+ 2380              		.cfi_startproc
+ 2381              		@ Function supports interworking.
+ 2382              		@ args = 0, pretend = 0, frame = 8
+ 2383              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2384 0240 0DC0A0E1 		mov	ip, sp
+ 2385              	.LCFI8:
+ 2386              		.cfi_def_cfa_register 12
+ 2387 0244 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+ 2388 0248 04B04CE2 		sub	fp, ip, #4
+ 2389              		.cfi_offset 14, -8
+ 2390              		.cfi_offset 13, -12
+ 2391              		.cfi_offset 11, -16
+ 2392              	.LCFI9:
+ 2393              		.cfi_def_cfa 11, 4
+ 2394 024c 08D04DE2 		sub	sp, sp, #8
+ 2395 0250 10000BE5 		str	r0, [fp, #-16]
+  65:../eventGenerator.c **** 	pevent->time = efifo.buffer[efifo.head].time;
+ 2396              		.loc 1 65 0
+ 2397 0254 68219FE5 		ldr	r2, .L12
+ 2398 0258 68319FE5 		ldr	r3, .L12+4
+ 2399 025c B33092E1 		ldrh	r3, [r2, r3]	@ movhi
+ 2400 0260 0338A0E1 		mov	r3, r3, asl #16
+ 2401 0264 2338A0E1 		mov	r3, r3, lsr #16
+ 2402 0268 0320A0E1 		mov	r2, r3
+ 2403 026c 10101BE5 		ldr	r1, [fp, #-16]
+ 2404 0270 4C019FE5 		ldr	r0, .L12
+ 2405 0274 0230A0E1 		mov	r3, r2
+ 2406 0278 8331A0E1 		mov	r3, r3, asl #3
+ 2407 027c 023083E0 		add	r3, r3, r2
+ 2408 0280 033080E0 		add	r3, r0, r3
+ 2409 0284 0320A0E1 		mov	r2, r3
+ 2410 0288 0730A0E3 		mov	r3, #7
+ 2411 028c 0100A0E1 		mov	r0, r1
+ 2412 0290 0210A0E1 		mov	r1, r2
+ 2413 0294 0320A0E1 		mov	r2, r3
+ 2414 0298 FEFFFFEB 		bl	memcpy
+  66:../eventGenerator.c **** 	pevent->id   = efifo.buffer[efifo.head].id;
+ 2415              		.loc 1 66 0
+ 2416 029c 20219FE5 		ldr	r2, .L12
+ 2417 02a0 20319FE5 		ldr	r3, .L12+4
+ 2418 02a4 B33092E1 		ldrh	r3, [r2, r3]	@ movhi
+ 2419 02a8 0338A0E1 		mov	r3, r3, asl #16
+ 2420 02ac 2338A0E1 		mov	r3, r3, lsr #16
+ 2421 02b0 0320A0E1 		mov	r2, r3
+ 2422 02b4 08119FE5 		ldr	r1, .L12
+ 2423 02b8 0230A0E1 		mov	r3, r2
+ 2424 02bc 8331A0E1 		mov	r3, r3, asl #3
+ 2425 02c0 023083E0 		add	r3, r3, r2
+ 2426 02c4 033081E0 		add	r3, r1, r3
+ 2427 02c8 0730D3E5 		ldrb	r3, [r3, #7]
+ 2428 02cc FF2003E2 		and	r2, r3, #255
+ 2429 02d0 10301BE5 		ldr	r3, [fp, #-16]
+ 2430 02d4 0720C3E5 		strb	r2, [r3, #7]
+  67:../eventGenerator.c **** 	pevent->arg  = efifo.buffer[efifo.head].arg;
+ 2431              		.loc 1 67 0
+ 2432 02d8 E4209FE5 		ldr	r2, .L12
+ 2433 02dc E4309FE5 		ldr	r3, .L12+4
+ 2434 02e0 B33092E1 		ldrh	r3, [r2, r3]	@ movhi
+ 2435 02e4 0338A0E1 		mov	r3, r3, asl #16
+ 2436 02e8 2338A0E1 		mov	r3, r3, lsr #16
+ 2437 02ec 0320A0E1 		mov	r2, r3
+ 2438 02f0 CC009FE5 		ldr	r0, .L12
+ 2439 02f4 0810A0E3 		mov	r1, #8
+ 2440 02f8 0230A0E1 		mov	r3, r2
+ 2441 02fc 8331A0E1 		mov	r3, r3, asl #3
+ 2442 0300 023083E0 		add	r3, r3, r2
+ 2443 0304 033080E0 		add	r3, r0, r3
+ 2444 0308 013083E0 		add	r3, r3, r1
+ 2445 030c 0030D3E5 		ldrb	r3, [r3, #0]
+ 2446 0310 FF2003E2 		and	r2, r3, #255
+ 2447 0314 10301BE5 		ldr	r3, [fp, #-16]
+ 2448 0318 0820C3E5 		strb	r2, [r3, #8]
+  68:../eventGenerator.c ****     efifo.head++;
+ 2449              		.loc 1 68 0
+ 2450 031c A0209FE5 		ldr	r2, .L12
+ 2451 0320 A0309FE5 		ldr	r3, .L12+4
+ 2452 0324 B33092E1 		ldrh	r3, [r2, r3]	@ movhi
+ 2453 0328 0338A0E1 		mov	r3, r3, asl #16
+ 2454 032c 2338A0E1 		mov	r3, r3, lsr #16
+ 2455 0330 013083E2 		add	r3, r3, #1
+ 2456 0334 0338A0E1 		mov	r3, r3, asl #16
+ 2457 0338 2318A0E1 		mov	r1, r3, lsr #16
+ 2458 033c 80209FE5 		ldr	r2, .L12
+ 2459 0340 80309FE5 		ldr	r3, .L12+4
+ 2460 0344 B31082E1 		strh	r1, [r2, r3]	@ movhi
+  69:../eventGenerator.c **** 	if( efifo.head == MAXEVENTS )
+ 2461              		.loc 1 69 0
+ 2462 0348 74209FE5 		ldr	r2, .L12
+ 2463 034c 74309FE5 		ldr	r3, .L12+4
+ 2464 0350 B33092E1 		ldrh	r3, [r2, r3]	@ movhi
+ 2465 0354 0338A0E1 		mov	r3, r3, asl #16
+ 2466 0358 2338A0E1 		mov	r3, r3, lsr #16
+ 2467 035c 010C53E3 		cmp	r3, #256
+ 2468 0360 0300001A 		bne	.L11
+  70:../eventGenerator.c **** 		efifo.head = 0;
+ 2469              		.loc 1 70 0
+ 2470 0364 58209FE5 		ldr	r2, .L12
+ 2471 0368 58309FE5 		ldr	r3, .L12+4
+ 2472 036c 0010A0E3 		mov	r1, #0
+ 2473 0370 B31082E1 		strh	r1, [r2, r3]	@ movhi
+ 2474              	.L11:
+  71:../eventGenerator.c **** 	INT_DISABLE;
+ 2475              		.loc 1 71 0
+ 2476              	@ 71 "../eventGenerator.c" 1
+ 2477 0374 00000FE1 		mrs   r0, cpsr
+ 2478              	@ 0 "" 2
+ 2479              	@ 71 "../eventGenerator.c" 1
+ 2480 0378 04002DE5 		stmfd sp!, {r0}
+ 2481              	@ 0 "" 2
+ 2482              	@ 71 "../eventGenerator.c" 1
+ 2483 037c C00080E3 		orr   r0, r0, #0b11000000
+ 2484              	@ 0 "" 2
+ 2485              	@ 71 "../eventGenerator.c" 1
+ 2486 0380 00F021E1 		msr   cpsr_c, r0
+ 2487              	@ 0 "" 2
+  72:../eventGenerator.c **** 	efifo.size--;
+ 2488              		.loc 1 72 0
+ 2489 0384 38209FE5 		ldr	r2, .L12
+ 2490 0388 093CA0E3 		mov	r3, #2304
+ 2491 038c B33092E1 		ldrh	r3, [r2, r3]	@ movhi
+ 2492 0390 0338A0E1 		mov	r3, r3, asl #16
+ 2493 0394 2338A0E1 		mov	r3, r3, lsr #16
+ 2494 0398 013043E2 		sub	r3, r3, #1
+ 2495 039c 0338A0E1 		mov	r3, r3, asl #16
+ 2496 03a0 2318A0E1 		mov	r1, r3, lsr #16
+ 2497 03a4 18209FE5 		ldr	r2, .L12
+ 2498 03a8 093CA0E3 		mov	r3, #2304
+ 2499 03ac B31082E1 		strh	r1, [r2, r3]	@ movhi
+  73:../eventGenerator.c **** 	INT_ENABLE;
+ 2500              		.loc 1 73 0
+ 2501              	@ 73 "../eventGenerator.c" 1
+ 2502 03b0 04009DE4 		ldmfd sp!, {r0}
+ 2503              	@ 0 "" 2
+ 2504              	@ 73 "../eventGenerator.c" 1
+ 2505 03b4 00F021E1 		msr   cpsr_c, r0
+ 2506              	@ 0 "" 2
+  74:../eventGenerator.c **** }
+ 2507              		.loc 1 74 0
+ 2508 03b8 0CD04BE2 		sub	sp, fp, #12
+ 2509 03bc 00689DE8 		ldmfd	sp, {fp, sp, lr}
+ 2510 03c0 1EFF2FE1 		bx	lr
+ 2511              	.L13:
+ 2512              		.align	2
+ 2513              	.L12:
+ 2514 03c4 00000000 		.word	efifo
+ 2515 03c8 02090000 		.word	2306
+ 2516              		.cfi_endproc
+ 2517              	.LFE4:
+ 2519              		.align	2
+ 2521              	efifo_is_empty:
+ 2522              	.LFB5:
+  75:../eventGenerator.c **** 
+  76:../eventGenerator.c **** static boolean efifo_is_empty( void )
+  77:../eventGenerator.c **** {
+ 2523              		.loc 1 77 0
+ 2524              		.cfi_startproc
+ 2525              		@ Function supports interworking.
+ 2526              		@ args = 0, pretend = 0, frame = 0
+ 2527              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2528 03cc 0DC0A0E1 		mov	ip, sp
+ 2529              	.LCFI10:
+ 2530              		.cfi_def_cfa_register 12
+ 2531 03d0 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+ 2532 03d4 04B04CE2 		sub	fp, ip, #4
+ 2533              		.cfi_offset 14, -8
+ 2534              		.cfi_offset 13, -12
+ 2535              		.cfi_offset 11, -16
+ 2536              	.LCFI11:
+ 2537              		.cfi_def_cfa 11, 4
+  78:../eventGenerator.c **** 	return (efifo.size == 0);
+ 2538              		.loc 1 78 0
+ 2539 03d8 2C209FE5 		ldr	r2, .L15
+ 2540 03dc 093CA0E3 		mov	r3, #2304
+ 2541 03e0 B33092E1 		ldrh	r3, [r2, r3]	@ movhi
+ 2542 03e4 0338A0E1 		mov	r3, r3, asl #16
+ 2543 03e8 2338A0E1 		mov	r3, r3, lsr #16
+ 2544 03ec 000053E3 		cmp	r3, #0
+ 2545 03f0 0030A013 		movne	r3, #0
+ 2546 03f4 0130A003 		moveq	r3, #1
+ 2547 03f8 FF3003E2 		and	r3, r3, #255
+  79:../eventGenerator.c **** }
+ 2548              		.loc 1 79 0
+ 2549 03fc 0300A0E1 		mov	r0, r3
+ 2550 0400 0CD04BE2 		sub	sp, fp, #12
+ 2551 0404 00689DE8 		ldmfd	sp, {fp, sp, lr}
+ 2552 0408 1EFF2FE1 		bx	lr
+ 2553              	.L16:
+ 2554              		.align	2
+ 2555              	.L15:
+ 2556 040c 00000000 		.word	efifo
+ 2557              		.cfi_endproc
+ 2558              	.LFE5:
+ 2560              		.align	2
+ 2562              	efifo_is_full:
+ 2563              	.LFB6:
+  80:../eventGenerator.c **** 
+  81:../eventGenerator.c **** static boolean efifo_is_full( void )
+  82:../eventGenerator.c **** {
+ 2564              		.loc 1 82 0
+ 2565              		.cfi_startproc
+ 2566              		@ Function supports interworking.
+ 2567              		@ args = 0, pretend = 0, frame = 0
+ 2568              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2569 0410 0DC0A0E1 		mov	ip, sp
+ 2570              	.LCFI12:
+ 2571              		.cfi_def_cfa_register 12
+ 2572 0414 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+ 2573 0418 04B04CE2 		sub	fp, ip, #4
+ 2574              		.cfi_offset 14, -8
+ 2575              		.cfi_offset 13, -12
+ 2576              		.cfi_offset 11, -16
+ 2577              	.LCFI13:
+ 2578              		.cfi_def_cfa 11, 4
+  83:../eventGenerator.c **** 	return (efifo.size == MAXEVENTS-1);
+ 2579              		.loc 1 83 0
+ 2580 041c 2C209FE5 		ldr	r2, .L18
+ 2581 0420 093CA0E3 		mov	r3, #2304
+ 2582 0424 B33092E1 		ldrh	r3, [r2, r3]	@ movhi
+ 2583 0428 0338A0E1 		mov	r3, r3, asl #16
+ 2584 042c 2338A0E1 		mov	r3, r3, lsr #16
+ 2585 0430 FF0053E3 		cmp	r3, #255
+ 2586 0434 0030A013 		movne	r3, #0
+ 2587 0438 0130A003 		moveq	r3, #1
+ 2588 043c FF3003E2 		and	r3, r3, #255
+  84:../eventGenerator.c **** }
+ 2589              		.loc 1 84 0
+ 2590 0440 0300A0E1 		mov	r0, r3
+ 2591 0444 0CD04BE2 		sub	sp, fp, #12
+ 2592 0448 00689DE8 		ldmfd	sp, {fp, sp, lr}
+ 2593 044c 1EFF2FE1 		bx	lr
+ 2594              	.L19:
+ 2595              		.align	2
+ 2596              	.L18:
+ 2597 0450 00000000 		.word	efifo
+ 2598              		.cfi_endproc
+ 2599              	.LFE6:
+ 2601              		.bss
+ 2602              	arg_needed:
+ 2603 0906 00       		.space	1
+ 2604              	clients_waiting:
+ 2605 0907 00       		.space	1
+ 2606              		.text
+ 2607              		.align	2
+ 2608              		.global	eventGenerator_init
+ 2610              	eventGenerator_init:
+ 2611              	.LFB7:
+  85:../eventGenerator.c **** 
+  86:../eventGenerator.c **** /*******************************************************************/
+  87:../eventGenerator.c **** /*******************************************************************/
+  88:../eventGenerator.c **** 
+  89:../eventGenerator.c **** static boolean arg_needed;
+  90:../eventGenerator.c **** static boolean clients_waiting;
+  91:../eventGenerator.c **** 
+  92:../eventGenerator.c **** static void keypad_down_isr( void ) __attribute__ ((interrupt ("IRQ")));
+  93:../eventGenerator.c **** static void timer0_down_isr( void ) __attribute__ ((interrupt ("IRQ")));
+  94:../eventGenerator.c **** static void keypad_up_isr( void ) __attribute__ ((interrupt ("IRQ")));
+  95:../eventGenerator.c **** static void timer0_up_isr( void ) __attribute__ ((interrupt ("IRQ")));
+  96:../eventGenerator.c **** 
+  97:../eventGenerator.c **** /*******************************************************************/
+  98:../eventGenerator.c **** 
+  99:../eventGenerator.c **** void eventGenerator_init( void )
+ 100:../eventGenerator.c **** {
+ 2612              		.loc 1 100 0
+ 2613              		.cfi_startproc
+ 2614              		@ Function supports interworking.
+ 2615              		@ args = 0, pretend = 0, frame = 0
+ 2616              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2617 0454 0DC0A0E1 		mov	ip, sp
+ 2618              	.LCFI14:
+ 2619              		.cfi_def_cfa_register 12
+ 2620 0458 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+ 2621 045c 04B04CE2 		sub	fp, ip, #4
+ 2622              		.cfi_offset 14, -8
+ 2623              		.cfi_offset 13, -12
+ 2624              		.cfi_offset 11, -16
+ 2625              	.LCFI15:
+ 2626              		.cfi_def_cfa 11, 4
+ 101:../eventGenerator.c ****     keypad_init();
+ 2627              		.loc 1 101 0
+ 2628 0460 FEFFFFEB 		bl	keypad_init
+ 102:../eventGenerator.c ****     timers_init();
+ 2629              		.loc 1 102 0
+ 2630 0464 FEFFFFEB 		bl	timers_init
+ 103:../eventGenerator.c ****     leds_init();
+ 2631              		.loc 1 103 0
+ 2632 0468 FEFFFFEB 		bl	leds_init
+ 104:../eventGenerator.c ****     segs_init();
+ 2633              		.loc 1 104 0
+ 2634 046c FEFFFFEB 		bl	segs_init
+ 105:../eventGenerator.c ****     efifo_init();
+ 2635              		.loc 1 105 0
+ 2636 0470 F9FEFFEB 		bl	efifo_init
+ 106:../eventGenerator.c **** 
+ 107:../eventGenerator.c ****     arg_needed = FALSE;
+ 2637              		.loc 1 107 0
+ 2638 0474 3C309FE5 		ldr	r3, .L21
+ 2639 0478 0020A0E3 		mov	r2, #0
+ 2640 047c 0020C3E5 		strb	r2, [r3, #0]
+ 108:../eventGenerator.c ****     clients_waiting = FALSE;
+ 2641              		.loc 1 108 0
+ 2642 0480 34309FE5 		ldr	r3, .L21+4
+ 2643 0484 0020A0E3 		mov	r2, #0
+ 2644 0488 0020C3E5 		strb	r2, [r3, #0]
+ 109:../eventGenerator.c **** 
+ 110:../eventGenerator.c ****     EXTINT = (EXTINT & ~(0xf<<4)) | (2<<4);	   // Falling edge tiggered
+ 2645              		.loc 1 110 0
+ 2646 048c 2C309FE5 		ldr	r3, .L21+8
+ 2647 0490 28209FE5 		ldr	r2, .L21+8
+ 2648 0494 002092E5 		ldr	r2, [r2, #0]
+ 2649 0498 F020C2E3 		bic	r2, r2, #240
+ 2650 049c 202082E3 		orr	r2, r2, #32
+ 2651 04a0 002083E5 		str	r2, [r3, #0]
+ 111:../eventGenerator.c ****     keypad_open( keypad_down_isr );
+ 2652              		.loc 1 111 0
+ 2653 04a4 18009FE5 		ldr	r0, .L21+12
+ 2654 04a8 FEFFFFEB 		bl	keypad_open
+ 112:../eventGenerator.c **** };
+ 2655              		.loc 1 112 0
+ 2656 04ac 0CD04BE2 		sub	sp, fp, #12
+ 2657 04b0 00689DE8 		ldmfd	sp, {fp, sp, lr}
+ 2658 04b4 1EFF2FE1 		bx	lr
+ 2659              	.L22:
+ 2660              		.align	2
+ 2661              	.L21:
+ 2662 04b8 06090000 		.word	arg_needed
+ 2663 04bc 07090000 		.word	clients_waiting
+ 2664 04c0 5000D201 		.word	30539856
+ 2665 04c4 00000000 		.word	keypad_down_isr
+ 2666              		.cfi_endproc
+ 2667              	.LFE7:
+ 2669              		.align	2
+ 2671              	keypad_down_isr:
+ 2672              	.LFB8:
+ 113:../eventGenerator.c **** 
+ 114:../eventGenerator.c **** /*******************************************************************/
+ 115:../eventGenerator.c **** 
+ 116:../eventGenerator.c **** /*
+ 117:../eventGenerator.c **** ** Se ejecuta cuando se presiona el keypad, programando el T0 para que interrumpa pasado el tiempo 
+ 118:../eventGenerator.c **** */
+ 119:../eventGenerator.c **** static void keypad_down_isr( void )
+ 120:../eventGenerator.c **** {
+ 2673              		.loc 1 120 0
+ 2674              		.cfi_startproc
+ 2675              		@ Interrupt Service Routine.
+ 2676              		@ args = 0, pretend = 0, frame = 0
+ 2677              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2678 04c8 04C02DE5 		str	ip, [sp, #-4]!
+ 2679 04cc 0DC0A0E1 		mov	ip, sp
+ 2680              	.LCFI16:
+ 2681              		.cfi_def_cfa_register 12
+ 2682 04d0 0FD82DE9 		stmfd	sp!, {r0, r1, r2, r3, fp, ip, lr, pc}
+ 2683 04d4 04B04CE2 		sub	fp, ip, #4
+ 2684              		.cfi_offset 14, -8
+ 2685              		.cfi_offset 13, -12
+ 2686              		.cfi_offset 11, -16
+ 2687              		.cfi_offset 3, -20
+ 2688              		.cfi_offset 2, -24
+ 2689              		.cfi_offset 1, -28
+ 2690              		.cfi_offset 0, -32
+ 2691              	.LCFI17:
+ 2692              		.cfi_def_cfa 11, 4
+ 121:../eventGenerator.c **** 	timer0_open_ms( timer0_down_isr, KEYPAD_KEYDOWN_DELAY, TIMER_ONE_SHOT );
+ 2693              		.loc 1 121 0
+ 2694 04d8 38009FE5 		ldr	r0, .L24
+ 2695 04dc 1E10A0E3 		mov	r1, #30
+ 2696 04e0 0020A0E3 		mov	r2, #0
+ 2697 04e4 FEFFFFEB 		bl	timer0_open_ms
+ 122:../eventGenerator.c **** 	INTMSK   |= BIT_KEYPAD;				       // Enmascara la interrupción por pulsación del keypad
+ 2698              		.loc 1 122 0
+ 2699 04e8 2C309FE5 		ldr	r3, .L24+4
+ 2700 04ec 28209FE5 		ldr	r2, .L24+4
+ 2701 04f0 002092E5 		ldr	r2, [r2, #0]
+ 2702 04f4 012482E3 		orr	r2, r2, #16777216
+ 2703 04f8 002083E5 		str	r2, [r3, #0]
+ 123:../eventGenerator.c **** 	I_ISPC	  = BIT_KEYPAD;				       // Borra el bit de interrupción pendiente
+ 2704              		.loc 1 123 0
+ 2705 04fc 1C309FE5 		ldr	r3, .L24+8
+ 2706 0500 0124A0E3 		mov	r2, #16777216
+ 2707 0504 002083E5 		str	r2, [r3, #0]
+ 124:../eventGenerator.c **** }
+ 2708              		.loc 1 124 0
+ 2709 0508 1CD04BE2 		sub	sp, fp, #28
+ 2710 050c 0F689DE8 		ldmfd	sp, {r0, r1, r2, r3, fp, sp, lr}
+ 2711 0510 04C09DE4 		ldmfd	sp!, {ip}
+ 2712 0514 04F05EE2 		subs	pc, lr, #4
+ 2713              	.L25:
+ 2714              		.align	2
+ 2715              	.L24:
+ 2716 0518 00000000 		.word	timer0_down_isr
+ 2717 051c 0C00E001 		.word	31457292
+ 2718 0520 2400E001 		.word	31457316
+ 2719              		.cfi_endproc
+ 2720              	.LFE8:
+ 2722              		.align	2
+ 2724              	timer0_down_isr:
+ 2725              	.LFB9:
+ 125:../eventGenerator.c **** 
+ 126:../eventGenerator.c **** /*
+ 127:../eventGenerator.c **** ** Se ejecuta una vez transcurrido el tiempo de rebote por presion, encolando un evento en función 
+ 128:../eventGenerator.c **** */
+ 129:../eventGenerator.c **** static void timer0_down_isr( void )
+ 130:../eventGenerator.c **** {
+ 2726              		.loc 1 130 0
+ 2727              		.cfi_startproc
+ 2728              		@ Interrupt Service Routine.
+ 2729              		@ args = 0, pretend = 0, frame = 8
+ 2730              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2731 0524 04C02DE5 		str	ip, [sp, #-4]!
+ 2732 0528 0DC0A0E1 		mov	ip, sp
+ 2733              	.LCFI18:
+ 2734              		.cfi_def_cfa_register 12
+ 2735 052c 0FD82DE9 		stmfd	sp!, {r0, r1, r2, r3, fp, ip, lr, pc}
+ 2736 0530 04B04CE2 		sub	fp, ip, #4
+ 2737              		.cfi_offset 14, -8
+ 2738              		.cfi_offset 13, -12
+ 2739              		.cfi_offset 11, -16
+ 2740              		.cfi_offset 3, -20
+ 2741              		.cfi_offset 2, -24
+ 2742              		.cfi_offset 1, -28
+ 2743              		.cfi_offset 0, -32
+ 2744              	.LCFI19:
+ 2745              		.cfi_def_cfa 11, 4
+ 2746 0534 08D04DE2 		sub	sp, sp, #8
+ 131:../eventGenerator.c **** 	uint8 aux;
+ 132:../eventGenerator.c **** 
+ 133:../eventGenerator.c ****     static event_t event;
+ 134:../eventGenerator.c **** 
+ 135:../eventGenerator.c ****     aux = keypad_scan();
+ 2747              		.loc 1 135 0
+ 2748 0538 FEFFFFEB 		bl	keypad_scan
+ 2749 053c 0030A0E1 		mov	r3, r0
+ 2750 0540 1D304BE5 		strb	r3, [fp, #-29]
+ 136:../eventGenerator.c ****     if( aux == KEYPAD_FAILURE )
+ 2751              		.loc 1 136 0
+ 2752 0544 1D305BE5 		ldrb	r3, [fp, #-29]	@ zero_extendqisi2
+ 2753 0548 FF0053E3 		cmp	r3, #255
+ 2754 054c 0100001A 		bne	.L27
+ 137:../eventGenerator.c ****     	segs_off();
+ 2755              		.loc 1 137 0
+ 2756 0550 FEFFFFEB 		bl	segs_off
+ 2757 0554 7E0000EA 		b	.L28
+ 2758              	.L27:
+ 138:../eventGenerator.c ****     else
+ 139:../eventGenerator.c ****     {
+ 140:../eventGenerator.c **** 		segs_putchar( aux );
+ 2759              		.loc 1 140 0
+ 2760 0558 1D305BE5 		ldrb	r3, [fp, #-29]	@ zero_extendqisi2
+ 2761 055c 0300A0E1 		mov	r0, r3
+ 2762 0560 FEFFFFEB 		bl	segs_putchar
+ 141:../eventGenerator.c **** 
+ 142:../eventGenerator.c **** 		if( !arg_needed )
+ 2763              		.loc 1 142 0
+ 2764 0564 24329FE5 		ldr	r3, .L48
+ 2765 0568 0030D3E5 		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2766 056c 000053E3 		cmp	r3, #0
+ 2767 0570 5F00001A 		bne	.L29
+ 143:../eventGenerator.c **** 			switch( aux )
+ 2768              		.loc 1 143 0
+ 2769 0574 1D305BE5 		ldrb	r3, [fp, #-29]	@ zero_extendqisi2
+ 2770 0578 0E0053E3 		cmp	r3, #14
+ 2771 057c 03F19F97 		ldrls	pc, [pc, r3, asl #2]
+ 2772 0580 6E0000EA 		b	.L45
+ 2773              	.L35:
+ 2774 0584 C0050000 		.word	.L31
+ 2775 0588 C0050000 		.word	.L31
+ 2776 058c C0050000 		.word	.L31
+ 2777 0590 C0050000 		.word	.L31
+ 2778 0594 C0050000 		.word	.L31
+ 2779 0598 C0050000 		.word	.L31
+ 2780 059c C0050000 		.word	.L31
+ 2781 05a0 C0050000 		.word	.L31
+ 2782 05a4 C0050000 		.word	.L31
+ 2783 05a8 C0050000 		.word	.L31
+ 2784 05ac FC050000 		.word	.L32
+ 2785 05b0 C0050000 		.word	.L31
+ 2786 05b4 18060000 		.word	.L33
+ 2787 05b8 40070000 		.word	.L45
+ 2788 05bc 34060000 		.word	.L34
+ 2789              	.L31:
+ 144:../eventGenerator.c **** 			{
+ 145:../eventGenerator.c **** 				case 0x0:
+ 146:../eventGenerator.c **** 				case 0x1:
+ 147:../eventGenerator.c **** 				case 0x2:
+ 148:../eventGenerator.c **** 				case 0x3:
+ 149:../eventGenerator.c **** 				case 0x4:
+ 150:../eventGenerator.c **** 				case 0x5:
+ 151:../eventGenerator.c **** 				case 0x6:
+ 152:../eventGenerator.c **** 				case 0x7:
+ 153:../eventGenerator.c **** 				case 0x8:
+ 154:../eventGenerator.c **** 				case 0x9:
+ 155:../eventGenerator.c **** 				case 0xb:
+ 156:../eventGenerator.c **** 					event.id = CAJALIBRE;
+ 2790              		.loc 1 156 0
+ 2791 05c0 CC319FE5 		ldr	r3, .L48+4
+ 2792 05c4 0320A0E3 		mov	r2, #3
+ 2793 05c8 0720C3E5 		strb	r2, [r3, #7]
+ 157:../eventGenerator.c **** 					event.arg = aux;
+ 2794              		.loc 1 157 0
+ 2795 05cc C0319FE5 		ldr	r3, .L48+4
+ 2796 05d0 1D205BE5 		ldrb	r2, [fp, #-29]
+ 2797 05d4 0820C3E5 		strb	r2, [r3, #8]
+ 158:../eventGenerator.c **** 					rtc_gettime( &event.time );
+ 2798              		.loc 1 158 0
+ 2799 05d8 B4019FE5 		ldr	r0, .L48+4
+ 2800 05dc FEFFFFEB 		bl	rtc_gettime
+ 159:../eventGenerator.c **** 					if( !efifo_is_full() )
+ 2801              		.loc 1 159 0
+ 2802 05e0 8AFFFFEB 		bl	efifo_is_full
+ 2803 05e4 0030A0E1 		mov	r3, r0
+ 2804 05e8 000053E3 		cmp	r3, #0
+ 2805 05ec 5500001A 		bne	.L46
+ 160:../eventGenerator.c **** 						efifo_enqueue( &event );
+ 2806              		.loc 1 160 0
+ 2807 05f0 9C019FE5 		ldr	r0, .L48+4
+ 2808 05f4 ADFEFFEB 		bl	efifo_enqueue
+ 161:../eventGenerator.c **** 					break;
+ 2809              		.loc 1 161 0
+ 2810 05f8 550000EA 		b	.L28
+ 2811              	.L32:
+ 162:../eventGenerator.c **** 				case 0xa:
+ 163:../eventGenerator.c **** 					event.id  = ABRECAJA;
+ 2812              		.loc 1 163 0
+ 2813 05fc 90319FE5 		ldr	r3, .L48+4
+ 2814 0600 0120A0E3 		mov	r2, #1
+ 2815 0604 0720C3E5 		strb	r2, [r3, #7]
+ 164:../eventGenerator.c **** 					arg_needed = TRUE;
+ 2816              		.loc 1 164 0
+ 2817 0608 80319FE5 		ldr	r3, .L48
+ 2818 060c 0120A0E3 		mov	r2, #1
+ 2819 0610 0020C3E5 		strb	r2, [r3, #0]
+ 165:../eventGenerator.c **** 					break;
+ 2820              		.loc 1 165 0
+ 2821 0614 4E0000EA 		b	.L28
+ 2822              	.L33:
+ 166:../eventGenerator.c **** 				case 0xc:
+ 167:../eventGenerator.c **** 					event.id = CIERRACAJA;
+ 2823              		.loc 1 167 0
+ 2824 0618 74319FE5 		ldr	r3, .L48+4
+ 2825 061c 0220A0E3 		mov	r2, #2
+ 2826 0620 0720C3E5 		strb	r2, [r3, #7]
+ 168:../eventGenerator.c **** 					arg_needed = TRUE;
+ 2827              		.loc 1 168 0
+ 2828 0624 64319FE5 		ldr	r3, .L48
+ 2829 0628 0120A0E3 		mov	r2, #1
+ 2830 062c 0020C3E5 		strb	r2, [r3, #0]
+ 169:../eventGenerator.c **** 					break;
+ 2831              		.loc 1 169 0
+ 2832 0630 470000EA 		b	.L28
+ 2833              	.L34:
+ 170:../eventGenerator.c **** 				case 0xe:
+ 171:../eventGenerator.c **** 					if( !clients_waiting ) {
+ 2834              		.loc 1 171 0
+ 2835 0634 5C319FE5 		ldr	r3, .L48+8
+ 2836 0638 0030D3E5 		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2837 063c 000053E3 		cmp	r3, #0
+ 2838 0640 1500001A 		bne	.L38
+ 172:../eventGenerator.c **** 						event.id = CLIENTEESPERA;
+ 2839              		.loc 1 172 0
+ 2840 0644 48319FE5 		ldr	r3, .L48+4
+ 2841 0648 0420A0E3 		mov	r2, #4
+ 2842 064c 0720C3E5 		strb	r2, [r3, #7]
+ 173:../eventGenerator.c **** 						event.arg = 0;
+ 2843              		.loc 1 173 0
+ 2844 0650 3C319FE5 		ldr	r3, .L48+4
+ 2845 0654 0020A0E3 		mov	r2, #0
+ 2846 0658 0820C3E5 		strb	r2, [r3, #8]
+ 174:../eventGenerator.c **** 						rtc_gettime( &event.time );
+ 2847              		.loc 1 174 0
+ 2848 065c 30019FE5 		ldr	r0, .L48+4
+ 2849 0660 FEFFFFEB 		bl	rtc_gettime
+ 175:../eventGenerator.c **** 						led_toggle( LEFT_LED );
+ 2850              		.loc 1 175 0
+ 2851 0664 0100A0E3 		mov	r0, #1
+ 2852 0668 FEFFFFEB 		bl	led_toggle
+ 176:../eventGenerator.c **** 						led_toggle( RIGHT_LED );
+ 2853              		.loc 1 176 0
+ 2854 066c 0200A0E3 		mov	r0, #2
+ 2855 0670 FEFFFFEB 		bl	led_toggle
+ 177:../eventGenerator.c **** 						if( !efifo_is_full() )
+ 2856              		.loc 1 177 0
+ 2857 0674 65FFFFEB 		bl	efifo_is_full
+ 2858 0678 0030A0E1 		mov	r3, r0
+ 2859 067c 000053E3 		cmp	r3, #0
+ 2860 0680 0100001A 		bne	.L39
+ 178:../eventGenerator.c **** 							efifo_enqueue( &event );
+ 2861              		.loc 1 178 0
+ 2862 0684 08019FE5 		ldr	r0, .L48+4
+ 2863 0688 88FEFFEB 		bl	efifo_enqueue
+ 2864              	.L39:
+ 179:../eventGenerator.c **** 						clients_waiting = TRUE;
+ 2865              		.loc 1 179 0
+ 2866 068c 04319FE5 		ldr	r3, .L48+8
+ 2867 0690 0120A0E3 		mov	r2, #1
+ 2868 0694 0020C3E5 		strb	r2, [r3, #0]
+ 180:../eventGenerator.c **** 					} else {
+ 181:../eventGenerator.c **** 						event.id = SINCLIENTES;
+ 182:../eventGenerator.c **** 						event.arg = 0;
+ 183:../eventGenerator.c **** 						rtc_gettime( &event.time );
+ 184:../eventGenerator.c **** 						led_toggle( LEFT_LED );
+ 185:../eventGenerator.c **** 						led_toggle( RIGHT_LED );
+ 186:../eventGenerator.c **** 						if( !efifo_is_full() )
+ 187:../eventGenerator.c **** 							efifo_enqueue( &event );
+ 188:../eventGenerator.c **** 						clients_waiting = FALSE;
+ 189:../eventGenerator.c **** 					}
+ 190:../eventGenerator.c **** 					break;
+ 2869              		.loc 1 190 0
+ 2870 0698 2D0000EA 		b	.L28
+ 2871              	.L38:
+ 181:../eventGenerator.c **** 						event.id = SINCLIENTES;
+ 2872              		.loc 1 181 0
+ 2873 069c F0309FE5 		ldr	r3, .L48+4
+ 2874 06a0 0520A0E3 		mov	r2, #5
+ 2875 06a4 0720C3E5 		strb	r2, [r3, #7]
+ 182:../eventGenerator.c **** 						event.arg = 0;
+ 2876              		.loc 1 182 0
+ 2877 06a8 E4309FE5 		ldr	r3, .L48+4
+ 2878 06ac 0020A0E3 		mov	r2, #0
+ 2879 06b0 0820C3E5 		strb	r2, [r3, #8]
+ 183:../eventGenerator.c **** 						rtc_gettime( &event.time );
+ 2880              		.loc 1 183 0
+ 2881 06b4 D8009FE5 		ldr	r0, .L48+4
+ 2882 06b8 FEFFFFEB 		bl	rtc_gettime
+ 184:../eventGenerator.c **** 						led_toggle( LEFT_LED );
+ 2883              		.loc 1 184 0
+ 2884 06bc 0100A0E3 		mov	r0, #1
+ 2885 06c0 FEFFFFEB 		bl	led_toggle
+ 185:../eventGenerator.c **** 						led_toggle( RIGHT_LED );
+ 2886              		.loc 1 185 0
+ 2887 06c4 0200A0E3 		mov	r0, #2
+ 2888 06c8 FEFFFFEB 		bl	led_toggle
+ 186:../eventGenerator.c **** 						if( !efifo_is_full() )
+ 2889              		.loc 1 186 0
+ 2890 06cc 4FFFFFEB 		bl	efifo_is_full
+ 2891 06d0 0030A0E1 		mov	r3, r0
+ 2892 06d4 000053E3 		cmp	r3, #0
+ 2893 06d8 0100001A 		bne	.L41
+ 187:../eventGenerator.c **** 							efifo_enqueue( &event );
+ 2894              		.loc 1 187 0
+ 2895 06dc B0009FE5 		ldr	r0, .L48+4
+ 2896 06e0 72FEFFEB 		bl	efifo_enqueue
+ 2897              	.L41:
+ 188:../eventGenerator.c **** 						clients_waiting = FALSE;
+ 2898              		.loc 1 188 0
+ 2899 06e4 AC309FE5 		ldr	r3, .L48+8
+ 2900 06e8 0020A0E3 		mov	r2, #0
+ 2901 06ec 0020C3E5 		strb	r2, [r3, #0]
+ 2902              		.loc 1 190 0
+ 2903 06f0 170000EA 		b	.L28
+ 2904              	.L29:
+ 191:../eventGenerator.c **** 				default:
+ 192:../eventGenerator.c **** 					break;
+ 193:../eventGenerator.c **** 			}
+ 194:../eventGenerator.c **** 		else
+ 195:../eventGenerator.c **** 			switch( aux )
+ 2905              		.loc 1 195 0
+ 2906 06f4 1D305BE5 		ldrb	r3, [fp, #-29]	@ zero_extendqisi2
+ 2907 06f8 003083E2 		add	r3, r3, #0
+ 2908 06fc 090053E3 		cmp	r3, #9
+ 2909 0700 1200008A 		bhi	.L47
+ 196:../eventGenerator.c **** 			{
+ 197:../eventGenerator.c **** 				case 0x0:
+ 198:../eventGenerator.c **** 				case 0x1:
+ 199:../eventGenerator.c **** 				case 0x2:
+ 200:../eventGenerator.c **** 				case 0x3:
+ 201:../eventGenerator.c **** 				case 0x4:
+ 202:../eventGenerator.c **** 				case 0x5:
+ 203:../eventGenerator.c **** 				case 0x6:
+ 204:../eventGenerator.c **** 				case 0x7:
+ 205:../eventGenerator.c **** 				case 0x8:
+ 206:../eventGenerator.c **** 				case 0x9:
+ 207:../eventGenerator.c **** 					event.arg = aux;
+ 2910              		.loc 1 207 0
+ 2911 0704 88309FE5 		ldr	r3, .L48+4
+ 2912 0708 1D205BE5 		ldrb	r2, [fp, #-29]
+ 2913 070c 0820C3E5 		strb	r2, [r3, #8]
+ 208:../eventGenerator.c **** 					rtc_gettime( &event.time );
+ 2914              		.loc 1 208 0
+ 2915 0710 7C009FE5 		ldr	r0, .L48+4
+ 2916 0714 FEFFFFEB 		bl	rtc_gettime
+ 209:../eventGenerator.c **** 					if( !efifo_is_full() )
+ 2917              		.loc 1 209 0
+ 2918 0718 3CFFFFEB 		bl	efifo_is_full
+ 2919 071c 0030A0E1 		mov	r3, r0
+ 2920 0720 000053E3 		cmp	r3, #0
+ 2921 0724 0100001A 		bne	.L44
+ 210:../eventGenerator.c **** 						efifo_enqueue( &event );
+ 2922              		.loc 1 210 0
+ 2923 0728 64009FE5 		ldr	r0, .L48+4
+ 2924 072c 5FFEFFEB 		bl	efifo_enqueue
+ 2925              	.L44:
+ 211:../eventGenerator.c **** 					arg_needed = FALSE;
+ 2926              		.loc 1 211 0
+ 2927 0730 58309FE5 		ldr	r3, .L48
+ 2928 0734 0020A0E3 		mov	r2, #0
+ 2929 0738 0020C3E5 		strb	r2, [r3, #0]
+ 212:../eventGenerator.c **** 					break;
+ 2930              		.loc 1 212 0
+ 2931 073c 040000EA 		b	.L28
+ 2932              	.L45:
+ 192:../eventGenerator.c **** 					break;
+ 2933              		.loc 1 192 0
+ 2934 0740 0000A0E1 		mov	r0, r0	@ nop
+ 2935 0744 020000EA 		b	.L28
+ 2936              	.L46:
+ 161:../eventGenerator.c **** 					break;
+ 2937              		.loc 1 161 0
+ 2938 0748 0000A0E1 		mov	r0, r0	@ nop
+ 2939 074c 000000EA 		b	.L28
+ 2940              	.L47:
+ 213:../eventGenerator.c **** 				default:
+ 214:../eventGenerator.c **** 					break;
+ 2941              		.loc 1 214 0
+ 2942 0750 0000A0E1 		mov	r0, r0	@ nop
+ 2943              	.L28:
+ 215:../eventGenerator.c **** 					//Printear error;;
+ 216:../eventGenerator.c **** 					uart0_puts( "\n\n Insercion erronea del evento  \n" );
+ 217:../eventGenerator.c **** 
+ 218:../eventGenerator.c **** 			}
+ 219:../eventGenerator.c ****     }
+ 220:../eventGenerator.c **** 
+ 221:../eventGenerator.c **** 	EXTINT = (EXTINT & ~(0xf<<4)) | (4<<4);	   // Rising edge triggered
+ 2944              		.loc 1 221 0
+ 2945 0754 40309FE5 		ldr	r3, .L48+12
+ 2946 0758 3C209FE5 		ldr	r2, .L48+12
+ 2947 075c 002092E5 		ldr	r2, [r2, #0]
+ 2948 0760 F020C2E3 		bic	r2, r2, #240
+ 2949 0764 402082E3 		orr	r2, r2, #64
+ 2950 0768 002083E5 		str	r2, [r3, #0]
+ 222:../eventGenerator.c **** 	keypad_open( keypad_up_isr );
+ 2951              		.loc 1 222 0
+ 2952 076c 2C009FE5 		ldr	r0, .L48+16
+ 2953 0770 FEFFFFEB 		bl	keypad_open
+ 223:../eventGenerator.c **** 	I_ISPC = BIT_TIMER0;				       // Borra el bit de interrupción pendiente
+ 2954              		.loc 1 223 0
+ 2955 0774 28309FE5 		ldr	r3, .L48+20
+ 2956 0778 022AA0E3 		mov	r2, #8192
+ 2957 077c 002083E5 		str	r2, [r3, #0]
+ 224:../eventGenerator.c **** }
+ 2958              		.loc 1 224 0
+ 2959 0780 1CD04BE2 		sub	sp, fp, #28
+ 2960 0784 0F689DE8 		ldmfd	sp, {r0, r1, r2, r3, fp, sp, lr}
+ 2961 0788 04C09DE4 		ldmfd	sp!, {ip}
+ 2962 078c 04F05EE2 		subs	pc, lr, #4
+ 2963              	.L49:
+ 2964              		.align	2
+ 2965              	.L48:
+ 2966 0790 06090000 		.word	arg_needed
+ 2967 0794 08090000 		.word	event.4115
+ 2968 0798 07090000 		.word	clients_waiting
+ 2969 079c 5000D201 		.word	30539856
+ 2970 07a0 00000000 		.word	keypad_up_isr
+ 2971 07a4 2400E001 		.word	31457316
+ 2972              		.cfi_endproc
+ 2973              	.LFE9:
+ 2975              		.align	2
+ 2977              	keypad_up_isr:
+ 2978              	.LFB10:
+ 225:../eventGenerator.c **** 
+ 226:../eventGenerator.c **** /*
+ 227:../eventGenerator.c **** ** Se ejecuta cuando se depresiona el keypad, programando el T0 para que interrumpa pasado el tiemp
+ 228:../eventGenerator.c **** */
+ 229:../eventGenerator.c **** static void keypad_up_isr( void )
+ 230:../eventGenerator.c **** {
+ 2979              		.loc 1 230 0
+ 2980              		.cfi_startproc
+ 2981              		@ Interrupt Service Routine.
+ 2982              		@ args = 0, pretend = 0, frame = 0
+ 2983              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2984 07a8 04C02DE5 		str	ip, [sp, #-4]!
+ 2985 07ac 0DC0A0E1 		mov	ip, sp
+ 2986              	.LCFI20:
+ 2987              		.cfi_def_cfa_register 12
+ 2988 07b0 0FD82DE9 		stmfd	sp!, {r0, r1, r2, r3, fp, ip, lr, pc}
+ 2989 07b4 04B04CE2 		sub	fp, ip, #4
+ 2990              		.cfi_offset 14, -8
+ 2991              		.cfi_offset 13, -12
+ 2992              		.cfi_offset 11, -16
+ 2993              		.cfi_offset 3, -20
+ 2994              		.cfi_offset 2, -24
+ 2995              		.cfi_offset 1, -28
+ 2996              		.cfi_offset 0, -32
+ 2997              	.LCFI21:
+ 2998              		.cfi_def_cfa 11, 4
+ 231:../eventGenerator.c **** 	timer0_open_ms( timer0_up_isr, KEYPAD_KEYUP_DELAY, TIMER_ONE_SHOT );
+ 2999              		.loc 1 231 0
+ 3000 07b8 38009FE5 		ldr	r0, .L51
+ 3001 07bc 6410A0E3 		mov	r1, #100
+ 3002 07c0 0020A0E3 		mov	r2, #0
+ 3003 07c4 FEFFFFEB 		bl	timer0_open_ms
+ 232:../eventGenerator.c **** 	INTMSK   |= BIT_KEYPAD;				       // Enmascara la interrupción por pulsación del keypad
+ 3004              		.loc 1 232 0
+ 3005 07c8 2C309FE5 		ldr	r3, .L51+4
+ 3006 07cc 28209FE5 		ldr	r2, .L51+4
+ 3007 07d0 002092E5 		ldr	r2, [r2, #0]
+ 3008 07d4 012482E3 		orr	r2, r2, #16777216
+ 3009 07d8 002083E5 		str	r2, [r3, #0]
+ 233:../eventGenerator.c **** 	I_ISPC	  = BIT_KEYPAD;				       // Borra el bit de interrupción pendiente
+ 3010              		.loc 1 233 0
+ 3011 07dc 1C309FE5 		ldr	r3, .L51+8
+ 3012 07e0 0124A0E3 		mov	r2, #16777216
+ 3013 07e4 002083E5 		str	r2, [r3, #0]
+ 234:../eventGenerator.c **** }
+ 3014              		.loc 1 234 0
+ 3015 07e8 1CD04BE2 		sub	sp, fp, #28
+ 3016 07ec 0F689DE8 		ldmfd	sp, {r0, r1, r2, r3, fp, sp, lr}
+ 3017 07f0 04C09DE4 		ldmfd	sp!, {ip}
+ 3018 07f4 04F05EE2 		subs	pc, lr, #4
+ 3019              	.L52:
+ 3020              		.align	2
+ 3021              	.L51:
+ 3022 07f8 00000000 		.word	timer0_up_isr
+ 3023 07fc 0C00E001 		.word	31457292
+ 3024 0800 2400E001 		.word	31457316
+ 3025              		.cfi_endproc
+ 3026              	.LFE10:
+ 3028              		.align	2
+ 3030              	timer0_up_isr:
+ 3031              	.LFB11:
+ 235:../eventGenerator.c **** 
+ 236:../eventGenerator.c **** /*
+ 237:../eventGenerator.c **** ** Se ejecuta una vez transcurrido el tiempo de rebote por depresion
+ 238:../eventGenerator.c **** */
+ 239:../eventGenerator.c **** static void timer0_up_isr( void )
+ 240:../eventGenerator.c **** {
+ 3032              		.loc 1 240 0
+ 3033              		.cfi_startproc
+ 3034              		@ Interrupt Service Routine.
+ 3035              		@ args = 0, pretend = 0, frame = 0
+ 3036              		@ frame_needed = 1, uses_anonymous_args = 0
+ 3037 0804 04C02DE5 		str	ip, [sp, #-4]!
+ 3038 0808 0DC0A0E1 		mov	ip, sp
+ 3039              	.LCFI22:
+ 3040              		.cfi_def_cfa_register 12
+ 3041 080c 0FD82DE9 		stmfd	sp!, {r0, r1, r2, r3, fp, ip, lr, pc}
+ 3042 0810 04B04CE2 		sub	fp, ip, #4
+ 3043              		.cfi_offset 14, -8
+ 3044              		.cfi_offset 13, -12
+ 3045              		.cfi_offset 11, -16
+ 3046              		.cfi_offset 3, -20
+ 3047              		.cfi_offset 2, -24
+ 3048              		.cfi_offset 1, -28
+ 3049              		.cfi_offset 0, -32
+ 3050              	.LCFI23:
+ 3051              		.cfi_def_cfa 11, 4
+ 241:../eventGenerator.c **** 	EXTINT = (EXTINT & ~(0xf<<4)) | (2<<4);    // Falling edge triggered
+ 3052              		.loc 1 241 0
+ 3053 0814 34309FE5 		ldr	r3, .L54
+ 3054 0818 30209FE5 		ldr	r2, .L54
+ 3055 081c 002092E5 		ldr	r2, [r2, #0]
+ 3056 0820 F020C2E3 		bic	r2, r2, #240
+ 3057 0824 202082E3 		orr	r2, r2, #32
+ 3058 0828 002083E5 		str	r2, [r3, #0]
+ 242:../eventGenerator.c **** 	keypad_open( keypad_down_isr );
+ 3059              		.loc 1 242 0
+ 3060 082c 20009FE5 		ldr	r0, .L54+4
+ 3061 0830 FEFFFFEB 		bl	keypad_open
+ 243:../eventGenerator.c **** 	I_ISPC = BIT_TIMER0;				       // Borra el bit de interrupción pendiente
+ 3062              		.loc 1 243 0
+ 3063 0834 1C309FE5 		ldr	r3, .L54+8
+ 3064 0838 022AA0E3 		mov	r2, #8192
+ 3065 083c 002083E5 		str	r2, [r3, #0]
+ 244:../eventGenerator.c **** }
+ 3066              		.loc 1 244 0
+ 3067 0840 1CD04BE2 		sub	sp, fp, #28
+ 3068 0844 0F689DE8 		ldmfd	sp, {r0, r1, r2, r3, fp, sp, lr}
+ 3069 0848 04C09DE4 		ldmfd	sp!, {ip}
+ 3070 084c 04F05EE2 		subs	pc, lr, #4
+ 3071              	.L55:
+ 3072              		.align	2
+ 3073              	.L54:
+ 3074 0850 5000D201 		.word	30539856
+ 3075 0854 00000000 		.word	keypad_down_isr
+ 3076 0858 2400E001 		.word	31457316
+ 3077              		.cfi_endproc
+ 3078              	.LFE11:
+ 3080              		.bss
+ 3081              		.align	2
+ 3082              	event.4115:
+ 3083 0908 00000000 		.space	9
+ 3083      00000000 
+ 3083      00
+ 3084 0911 000000   		.text
+ 3085              	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 eventGenerator.c
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2112   .bss:00000000 $d
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2113   .bss:00000000 efifo
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2116   .text:00000000 $a
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2119   .text:00000000 any_event
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2521   .text:000003cc efifo_is_empty
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2154   .text:00000034 get_event
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2377   .text:00000240 efifo_dequeue
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2185   .text:0000005c efifo_init
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2224   .text:000000a4 $d
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2230   .text:000000b0 $a
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2232   .text:000000b0 efifo_enqueue
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2370   .text:00000238 $d
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2375   .text:00000240 $a
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2514   .text:000003c4 $d
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2519   .text:000003cc $a
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2556   .text:0000040c $d
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2560   .text:00000410 $a
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2562   .text:00000410 efifo_is_full
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2597   .text:00000450 $d
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2602   .bss:00000906 arg_needed
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2604   .bss:00000907 clients_waiting
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2607   .text:00000454 $a
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2610   .text:00000454 eventGenerator_init
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2662   .text:000004b8 $d
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2671   .text:000004c8 keypad_down_isr
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2669   .text:000004c8 $a
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2716   .text:00000518 $d
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2724   .text:00000524 timer0_down_isr
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2722   .text:00000524 $a
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2774   .text:00000584 $d
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2791   .text:000005c0 $a
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2966   .text:00000790 $d
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:3082   .bss:00000908 event.4115
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2977   .text:000007a8 keypad_up_isr
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:2975   .text:000007a8 $a
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:3022   .text:000007f8 $d
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:3030   .text:00000804 timer0_up_isr
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:3028   .text:00000804 $a
+C:\Users\USUARI~1\AppData\Local\Temp\cca2aZa8.s:3074   .text:00000850 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+memcpy
+keypad_init
+timers_init
+leds_init
+segs_init
+keypad_open
+timer0_open_ms
+keypad_scan
+segs_off
+segs_putchar
+rtc_gettime
+led_toggle

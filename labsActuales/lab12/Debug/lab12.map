@@ -1,0 +1,715 @@
+Archive member included because of file (symbol)
+
+../../BSP/Debug\libBSP.a(leds.o)
+                              ./lab12.o (leds_init)
+../../BSP/Debug\libBSP.a(segs.o)
+                              ./lab12.o (segs_init)
+c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a(_udivsi3.o)
+                              ./os_core/os_core.o (__aeabi_uidiv)
+c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a(_dvmd_tls.o)
+                              c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a(_udivsi3.o) (__aeabi_idiv0)
+
+Allocating common symbols
+Common symbol       size              file
+
+Task3Stk            0xa000            ./lab12.o
+OSLockNesting       0x1               ./os_core/os_core.o
+Task4Stk            0xa000            ./lab12.o
+OSRunning           0x1               ./os_core/os_core.o
+OSIdleCtr           0x4               ./os_core/os_core.o
+OSPrioHighRdy       0x1               ./os_core/os_core.o
+OSFlagTbl           0xdc              ./os_core/os_core.o
+OSPrioCur           0x1               ./os_core/os_core.o
+OSTCBList           0x4               ./os_core/os_core.o
+OSMemTbl            0x104             ./os_core/os_core.o
+OSTickStepState     0x1               ./os_core/os_core.o
+OSTaskStatStk       0x800             ./os_core/os_core.o
+OSCtxSwCtr          0x4               ./os_core/os_core.o
+OSIdleCtrMax        0x4               ./os_core/os_core.o
+OSTCBFreeList       0x4               ./os_core/os_core.o
+OSCPUUsage          0x1               ./os_core/os_core.o
+Task2Stk            0xa000            ./lab12.o
+keypadQueue         0x4               ./lab12.o
+OSTaskCtr           0x1               ./os_core/os_core.o
+uart0Sem            0x4               ./lab12.o
+OSMemFreeList       0x4               ./os_core/os_core.o
+Task6Stk            0xa000            ./lab12.o
+OSQTbl              0x60              ./os_core/os_core.o
+OSTCBHighRdy        0x4               ./os_core/os_core.o
+OSQFreeList         0x4               ./os_core/os_core.o
+keypadQueueTable    0x100             ./lab12.o
+OSRdyGrp            0x1               ./os_core/os_core.o
+Task1Stk            0xa000            ./lab12.o
+OSRdyTbl            0x8               ./os_core/os_core.o
+OSEventFreeList     0x4               ./os_core/os_core.o
+OSIntNesting        0x1               ./os_core/os_core.o
+TaskStartStk        0xa000            ./lab12.o
+OSTCBCur            0x4               ./os_core/os_core.o
+Task5Stk            0xa000            ./lab12.o
+OSTime              0x4               ./os_core/os_core.o
+OSTaskIdleStk       0x800             ./os_core/os_core.o
+OSEventTbl          0x1e0             ./os_core/os_core.o
+OSTCBTbl            0x8f0             ./os_core/os_core.o
+OSFlagFreeList      0x4               ./os_core/os_core.o
+OSStatRdy           0x1               ./os_core/os_core.o
+OSTCBPrioTbl        0x100             ./os_core/os_core.o
+status              0x1               ../../BSP/Debug\libBSP.a(leds.o)
+OSIdleCtrRun        0x4               ./os_core/os_core.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ./os_port/os_cpu_a.o
+LOAD ./os_port/os_cpu_c.o
+LOAD ./os_port/os_cpu_isr_wrapper.o
+LOAD ./os_core/os_core.o
+LOAD ./os_core/os_dbg_r.o
+LOAD ./os_core/os_flag.o
+LOAD ./os_core/os_mbox.o
+LOAD ./os_core/os_mem.o
+LOAD ./os_core/os_mutex.o
+LOAD ./os_core/os_q.o
+LOAD ./os_core/os_sem.o
+LOAD ./os_core/os_task.o
+LOAD ./os_core/os_time.o
+LOAD ./os_core/ucos_ii.o
+LOAD ./lab12-isr-wrappers.o
+LOAD ./lab12.o
+LOAD ../../BSP/Debug\libBSP.a
+START GROUP
+LOAD c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a
+LOAD c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib\libc.a
+END GROUP
+                0x0c100000                . = 0xc100000
+
+.text           0x0c100000     0x9520
+ *(.text)
+ .text          0x0c100000      0x110 ./os_port/os_cpu_a.o
+                0x0c100000                OSStartHighRdy
+                0x0c100028                OSCtxSw
+                0x0c100044                OSIntCtxSw
+                0x0c100078                OSTickISR
+ .text          0x0c100110      0x29c ./os_port/os_cpu_c.o
+                0x0c100110                OSInitHookBegin
+                0x0c100128                OSInitHookEnd
+                0x0c100140                OSTaskCreateHook
+                0x0c100160                OSTaskDelHook
+                0x0c100180                OSTaskIdleHook
+                0x0c10019c                OSTaskStatHook
+                0x0c1001b4                OSTaskStkInit
+                0x0c10035c                OSTaskSwHook
+                0x0c100374                OSTCBInitHook
+                0x0c100394                OSTimeTickHook
+ .text          0x0c1003ac        0x0 ./os_port/os_cpu_isr_wrapper.o
+ .text          0x0c1003ac     0x1a58 ./os_core/os_core.o
+                0x0c1003ac                OSEventNameGet
+                0x0c10049c                OSEventNameSet
+                0x0c1005a8                OSInit
+                0x0c1005f0                OSIntEnter
+                0x0c100648                OSIntExit
+                0x0c1007a4                OSSchedLock
+                0x0c100814                OSSchedUnlock
+                0x0c1008d0                OSStart
+                0x0c1009ac                OSStatInit
+                0x0c100a38                OSTimeTick
+                0x0c100c54                OSVersion
+                0x0c100c74                OS_Dummy
+                0x0c100c8c                OS_EventTaskRdy
+                0x0c100e98                OS_EventTaskWait
+                0x0c100ff0                OS_EventTO
+                0x0c101104                OS_EventWaitListInit
+                0x0c101618                OS_MemClr
+                0x0c101674                OS_MemCopy
+                0x0c1016e4                OS_Sched
+                0x0c101804                OS_StrCopy
+                0x0c10188c                OS_StrLen
+                0x0c1018e8                OS_TaskIdle
+                0x0c101934                OS_TaskStat
+                0x0c101a64                OS_TaskStatStkChk
+                0x0c101b24                OS_TCBInit
+ .text          0x0c101e04      0x238 ./os_core/os_dbg_r.o
+                0x0c101e04                OSDebugInit
+ .text          0x0c10203c     0x16cc ./os_core/os_flag.o
+                0x0c10203c                OSFlagAccept
+                0x0c102360                OSFlagCreate
+                0x0c102464                OSFlagDel
+                0x0c1026a4                OSFlagNameGet
+                0x0c102790                OSFlagNameSet
+                0x0c102898                OSFlagPend
+                0x0c102e04                OSFlagPendGetFlagsRdy
+                0x0c102e54                OSFlagPost
+                0x0c103214                OSFlagQuery
+                0x0c103468                OS_FlagInit
+                0x0c103654                OS_FlagUnlink
+ .text          0x0c103708      0x95c ./os_core/os_mbox.o
+                0x0c103708                OSMboxAccept
+                0x0c10378c                OSMboxCreate
+                0x0c103870                OSMboxDel
+                0x0c103aa4                OSMboxPend
+                0x0c103c88                OSMboxPost
+                0x0c103d6c                OSMboxPostOpt
+                0x0c103e94                OSMboxQuery
+ .text          0x0c104064      0x6ac ./os_core/os_mem.o
+                0x0c104064                OSMemCreate
+                0x0c104224                OSMemGet
+                0x0c1042f0                OSMemNameGet
+                0x0c1043b0                OSMemNameSet
+                0x0c10448c                OSMemPut
+                0x0c104550                OSMemQuery
+                0x0c104628                OS_MemInit
+ .text          0x0c104710     0x1044 ./os_core/os_mutex.o
+                0x0c104710                OSMutexAccept
+                0x0c104854                OSMutexCreate
+                0x0c1049f8                OSMutexDel
+                0x0c104c80                OSMutexPend
+                0x0c1051bc                OSMutexPost
+                0x0c10551c                OSMutexQuery
+ .text          0x0c105754      0xf64 ./os_core/os_q.o
+                0x0c105754                OSQAccept
+                0x0c10587c                OSQCreate
+                0x0c105a34                OSQDel
+                0x0c105cbc                OSQFlush
+                0x0c105d60                OSQPend
+                0x0c105f9c                OSQPost
+                0x0c1060d4                OSQPostFront
+                0x0c106214                OSQPostOpt
+                0x0c1063f0                OSQQuery
+                0x0c106610                OS_QInit
+ .text          0x0c1066b8      0x8d8 ./os_core/os_sem.o
+                0x0c1066b8                OSSemAccept
+                0x0c106758                OSSemCreate
+                0x0c106840                OSSemDel
+                0x0c106a74                OSSemPend
+                0x0c106c14                OSSemPost
+                0x0c106cf8                OSSemQuery
+                0x0c106ec8                OSSemSet
+ .text          0x0c106f90     0x146c ./os_core/os_task.o
+                0x0c106f90                OSTaskChangePrio
+                0x0c107354                OSTaskCreate
+                0x0c1074b0                OSTaskCreateExt
+                0x0c107620                OSTaskDel
+                0x0c1079fc                OSTaskDelReq
+                0x0c107b0c                OSTaskNameGet
+                0x0c107c50                OSTaskNameSet
+                0x0c107da8                OSTaskResume
+                0x0c107f1c                OSTaskStkChk
+                0x0c1080b0                OSTaskSuspend
+                0x0c10828c                OSTaskQuery
+                0x0c108378                OS_TaskStkClr
+ .text          0x0c1083fc      0x4d0 ./os_core/os_time.o
+                0x0c1083fc                OSTimeDly
+                0x0c108500                OSTimeDlyHMSM
+                0x0c1086a4                OSTimeDlyResume
+                0x0c108838                OSTimeGet
+                0x0c108884                OSTimeSet
+ .text          0x0c1088cc        0x0 ./os_core/ucos_ii.o
+ .text          0x0c1088cc       0x78 ./lab12-isr-wrappers.o
+                0x0c1088cc                OS_CPU_isr_pb
+ .text          0x0c108944      0x7cc ./lab12.o
+                0x0c108944                main
+                0x0c108a0c                TaskStart
+                0x0c108b58                Task1
+                0x0c108bf0                Task2
+                0x0c108cdc                Task3
+                0x0c108df4                Task4
+                0x0c108ee0                Task5
+                0x0c108fe8                Task6
+                0x0c109090                isr_pb
+ .text          0x0c109110      0x224 ../../BSP/Debug\libBSP.a(leds.o)
+                0x0c109110                leds_init
+                0x0c109140                led_on
+                0x0c1091ac                led_off
+                0x0c109218                led_toggle
+                0x0c109284                led_status
+ .text          0x0c109334       0xd4 ../../BSP/Debug\libBSP.a(segs.o)
+                0x0c109334                segs_init
+                0x0c109350                segs_off
+                0x0c109388                segs_putchar
+                0x0c1093e0                segs_status
+ .text          0x0c109408      0x114 c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a(_udivsi3.o)
+                0x0c109408                __aeabi_uidiv
+                0x0c109408                __udivsi3
+                0x0c1094fc                __aeabi_uidivmod
+ .text          0x0c10951c        0x4 c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a(_dvmd_tls.o)
+                0x0c10951c                __aeabi_idiv0
+                0x0c10951c                __aeabi_ldiv0
+
+.glue_7         0x0c109520        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x0c109520        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x0c109520        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x0c109520        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.rodata         0x0c109520      0x23c
+ *(.rodata)
+ .rodata        0x0c109520      0x108 ./os_core/os_core.o
+                0x0c109520                OSMapTbl
+                0x0c109528                OSUnMapTbl
+ .rodata        0x0c109628       0x60 ./os_core/os_dbg_r.o
+                0x0c109628                OSDebugEn
+                0x0c10962c                OSEndiannessTest
+                0x0c109630                OSEventEn
+                0x0c109632                OSEventMax
+                0x0c109634                OSEventNameSize
+                0x0c109636                OSEventSize
+                0x0c109638                OSEventTblSize
+                0x0c10963a                OSFlagEn
+                0x0c10963c                OSFlagGrpSize
+                0x0c10963e                OSFlagNodeSize
+                0x0c109640                OSFlagWidth
+                0x0c109642                OSFlagMax
+                0x0c109644                OSFlagNameSize
+                0x0c109646                OSLowestPrio
+                0x0c109648                OSMboxEn
+                0x0c10964a                OSMemEn
+                0x0c10964c                OSMemMax
+                0x0c10964e                OSMemNameSize
+                0x0c109650                OSMemSize
+                0x0c109652                OSMemTblSize
+                0x0c109654                OSMutexEn
+                0x0c109656                OSPtrSize
+                0x0c109658                OSQEn
+                0x0c10965a                OSQMax
+                0x0c10965c                OSQSize
+                0x0c10965e                OSRdyTblSize
+                0x0c109660                OSSemEn
+                0x0c109662                OSStkWidth
+                0x0c109664                OSTaskCreateEn
+                0x0c109666                OSTaskCreateExtEn
+                0x0c109668                OSTaskDelEn
+                0x0c10966a                OSTaskIdleStkSize
+                0x0c10966c                OSTaskProfileEn
+                0x0c10966e                OSTaskMax
+                0x0c109670                OSTaskNameSize
+                0x0c109672                OSTaskStatEn
+                0x0c109674                OSTaskStatStkSize
+                0x0c109676                OSTaskStatStkChkEn
+                0x0c109678                OSTaskSwHookEn
+                0x0c10967a                OSTCBPrioTblMax
+                0x0c10967c                OSTCBSize
+                0x0c10967e                OSTicksPerSec
+                0x0c109680                OSTimeTickHookEn
+                0x0c109682                OSVersionNbr
+                0x0c109684                OSDataSize
+ .rodata        0x0c109688       0xc4 ./lab12.o
+ .rodata        0x0c10974c       0x10 ../../BSP/Debug\libBSP.a(segs.o)
+
+.data           0x0c10975c        0x0
+ *(.data)
+ .data          0x0c10975c        0x0 ./os_port/os_cpu_a.o
+ .data          0x0c10975c        0x0 ./os_port/os_cpu_c.o
+ .data          0x0c10975c        0x0 ./os_port/os_cpu_isr_wrapper.o
+ .data          0x0c10975c        0x0 ./os_core/os_core.o
+ .data          0x0c10975c        0x0 ./os_core/os_dbg_r.o
+ .data          0x0c10975c        0x0 ./os_core/os_flag.o
+ .data          0x0c10975c        0x0 ./os_core/os_mbox.o
+ .data          0x0c10975c        0x0 ./os_core/os_mem.o
+ .data          0x0c10975c        0x0 ./os_core/os_mutex.o
+ .data          0x0c10975c        0x0 ./os_core/os_q.o
+ .data          0x0c10975c        0x0 ./os_core/os_sem.o
+ .data          0x0c10975c        0x0 ./os_core/os_task.o
+ .data          0x0c10975c        0x0 ./os_core/os_time.o
+ .data          0x0c10975c        0x0 ./os_core/ucos_ii.o
+ .data          0x0c10975c        0x0 ./lab12-isr-wrappers.o
+ .data          0x0c10975c        0x0 ./lab12.o
+ .data          0x0c10975c        0x0 ../../BSP/Debug\libBSP.a(leds.o)
+ .data          0x0c10975c        0x0 ../../BSP/Debug\libBSP.a(segs.o)
+ .data          0x0c10975c        0x0 c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a(_udivsi3.o)
+ .data          0x0c10975c        0x0 c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a(_dvmd_tls.o)
+
+.bss            0x0c10975c    0x47f79
+ *(.bss)
+ .bss           0x0c10975c        0x0 ./os_port/os_cpu_a.o
+ .bss           0x0c10975c        0x0 ./os_port/os_cpu_c.o
+ .bss           0x0c10975c        0x0 ./os_port/os_cpu_isr_wrapper.o
+ .bss           0x0c10975c        0x0 ./os_core/os_core.o
+ .bss           0x0c10975c        0x0 ./os_core/os_dbg_r.o
+ .bss           0x0c10975c        0x0 ./os_core/os_flag.o
+ .bss           0x0c10975c        0x0 ./os_core/os_mbox.o
+ .bss           0x0c10975c        0x0 ./os_core/os_mem.o
+ .bss           0x0c10975c        0x0 ./os_core/os_mutex.o
+ .bss           0x0c10975c        0x0 ./os_core/os_q.o
+ .bss           0x0c10975c        0x0 ./os_core/os_sem.o
+ .bss           0x0c10975c        0x0 ./os_core/os_task.o
+ .bss           0x0c10975c        0x0 ./os_core/os_time.o
+ .bss           0x0c10975c        0x0 ./os_core/ucos_ii.o
+ .bss           0x0c10975c        0x0 ./lab12-isr-wrappers.o
+ .bss           0x0c10975c        0x0 ./lab12.o
+ .bss           0x0c10975c        0x0 ../../BSP/Debug\libBSP.a(leds.o)
+ .bss           0x0c10975c        0x1 ../../BSP/Debug\libBSP.a(segs.o)
+ .bss           0x0c10975d        0x0 c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a(_udivsi3.o)
+ .bss           0x0c10975d        0x0 c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a(_dvmd_tls.o)
+ *fill*         0x0c10975d        0x3 00
+ COMMON         0x0c109760     0x1e6c ./os_core/os_core.o
+                0x0c109760                OSLockNesting
+                0x0c109761                OSRunning
+                0x0c109764                OSIdleCtr
+                0x0c109768                OSPrioHighRdy
+                0x0c10976c                OSFlagTbl
+                0x0c109848                OSPrioCur
+                0x0c10984c                OSTCBList
+                0x0c109850                OSMemTbl
+                0x0c109954                OSTickStepState
+                0x0c109958                OSTaskStatStk
+                0x0c10a158                OSCtxSwCtr
+                0x0c10a15c                OSIdleCtrMax
+                0x0c10a160                OSTCBFreeList
+                0x0c10a164                OSCPUUsage
+                0x0c10a165                OSTaskCtr
+                0x0c10a168                OSMemFreeList
+                0x0c10a16c                OSQTbl
+                0x0c10a1cc                OSTCBHighRdy
+                0x0c10a1d0                OSQFreeList
+                0x0c10a1d4                OSRdyGrp
+                0x0c10a1d8                OSRdyTbl
+                0x0c10a1e0                OSEventFreeList
+                0x0c10a1e4                OSIntNesting
+                0x0c10a1e8                OSTCBCur
+                0x0c10a1ec                OSTime
+                0x0c10a1f0                OSTaskIdleStk
+                0x0c10a9f0                OSEventTbl
+                0x0c10abd0                OSTCBTbl
+                0x0c10b4c0                OSFlagFreeList
+                0x0c10b4c4                OSStatRdy
+                0x0c10b4c8                OSTCBPrioTbl
+                0x0c10b5c8                OSIdleCtrRun
+ COMMON         0x0c10b5cc    0x46108 ./lab12.o
+                0x0c10b5cc                Task3Stk
+                0x0c1155cc                Task4Stk
+                0x0c11f5cc                Task2Stk
+                0x0c1295cc                keypadQueue
+                0x0c1295d0                uart0Sem
+                0x0c1295d4                Task6Stk
+                0x0c1335d4                keypadQueueTable
+                0x0c1336d4                Task1Stk
+                0x0c13d6d4                TaskStartStk
+                0x0c1476d4                Task5Stk
+ COMMON         0x0c1516d4        0x1 ../../BSP/Debug\libBSP.a(leds.o)
+                0x0c1516d4                status
+                0x0c1516d5                end = .
+OUTPUT(lab12.elf elf32-littlearm)
+
+.ARM.attributes
+                0x00000000       0x2e
+ .ARM.attributes
+                0x00000000       0x22 ./os_port/os_cpu_a.o
+ .ARM.attributes
+                0x00000022       0x32 ./os_port/os_cpu_c.o
+ .ARM.attributes
+                0x00000054       0x22 ./os_port/os_cpu_isr_wrapper.o
+ .ARM.attributes
+                0x00000076       0x32 ./os_core/os_core.o
+ .ARM.attributes
+                0x000000a8       0x32 ./os_core/os_dbg_r.o
+ .ARM.attributes
+                0x000000da       0x32 ./os_core/os_flag.o
+ .ARM.attributes
+                0x0000010c       0x32 ./os_core/os_mbox.o
+ .ARM.attributes
+                0x0000013e       0x32 ./os_core/os_mem.o
+ .ARM.attributes
+                0x00000170       0x32 ./os_core/os_mutex.o
+ .ARM.attributes
+                0x000001a2       0x32 ./os_core/os_q.o
+ .ARM.attributes
+                0x000001d4       0x32 ./os_core/os_sem.o
+ .ARM.attributes
+                0x00000206       0x32 ./os_core/os_task.o
+ .ARM.attributes
+                0x00000238       0x32 ./os_core/os_time.o
+ .ARM.attributes
+                0x0000026a       0x32 ./os_core/ucos_ii.o
+ .ARM.attributes
+                0x0000029c       0x22 ./lab12-isr-wrappers.o
+ .ARM.attributes
+                0x000002be       0x32 ./lab12.o
+ .ARM.attributes
+                0x000002f0       0x32 ../../BSP/Debug\libBSP.a(leds.o)
+ .ARM.attributes
+                0x00000322       0x32 ../../BSP/Debug\libBSP.a(segs.o)
+ .ARM.attributes
+                0x00000354       0x1a c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a(_udivsi3.o)
+ .ARM.attributes
+                0x0000036e       0x18 c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a(_dvmd_tls.o)
+
+.comment        0x00000000       0x2a
+ .comment       0x00000000       0x2a ./os_port/os_cpu_c.o
+                                 0x2b (size before relaxing)
+ .comment       0x00000000       0x2b ./os_core/os_core.o
+ .comment       0x00000000       0x2b ./os_core/os_dbg_r.o
+ .comment       0x00000000       0x2b ./os_core/os_flag.o
+ .comment       0x00000000       0x2b ./os_core/os_mbox.o
+ .comment       0x00000000       0x2b ./os_core/os_mem.o
+ .comment       0x00000000       0x2b ./os_core/os_mutex.o
+ .comment       0x00000000       0x2b ./os_core/os_q.o
+ .comment       0x00000000       0x2b ./os_core/os_sem.o
+ .comment       0x00000000       0x2b ./os_core/os_task.o
+ .comment       0x00000000       0x2b ./os_core/os_time.o
+ .comment       0x00000000       0x2b ./os_core/ucos_ii.o
+ .comment       0x00000000       0x2b ./lab12.o
+ .comment       0x00000000       0x2b ../../BSP/Debug\libBSP.a(leds.o)
+ .comment       0x00000000       0x2b ../../BSP/Debug\libBSP.a(segs.o)
+
+.debug_line     0x00000000     0x17f0
+ .debug_line    0x00000000       0x88 ./os_port/os_cpu_a.o
+ .debug_line    0x00000088       0xdf ./os_port/os_cpu_c.o
+ .debug_line    0x00000167      0x347 ./os_core/os_core.o
+ .debug_line    0x000004ae       0xd7 ./os_core/os_dbg_r.o
+ .debug_line    0x00000585      0x2ae ./os_core/os_flag.o
+ .debug_line    0x00000833      0x184 ./os_core/os_mbox.o
+ .debug_line    0x000009b7      0x174 ./os_core/os_mem.o
+ .debug_line    0x00000b2b      0x1c3 ./os_core/os_mutex.o
+ .debug_line    0x00000cee      0x203 ./os_core/os_q.o
+ .debug_line    0x00000ef1      0x16b ./os_core/os_sem.o
+ .debug_line    0x0000105c      0x243 ./os_core/os_task.o
+ .debug_line    0x0000129f      0x108 ./os_core/os_time.o
+ .debug_line    0x000013a7       0x98 ./os_core/ucos_ii.o
+ .debug_line    0x0000143f       0x49 ./lab12-isr-wrappers.o
+ .debug_line    0x00001488      0x23f ./lab12.o
+ .debug_line    0x000016c7       0x96 ../../BSP/Debug\libBSP.a(leds.o)
+ .debug_line    0x0000175d       0x93 ../../BSP/Debug\libBSP.a(segs.o)
+
+.debug_info     0x00000000     0x6fe0
+ .debug_info    0x00000000       0x61 ./os_port/os_cpu_a.o
+ .debug_info    0x00000061      0x513 ./os_port/os_cpu_c.o
+ .debug_info    0x00000574     0x10e3 ./os_core/os_core.o
+ .debug_info    0x00001657      0xed1 ./os_core/os_dbg_r.o
+ .debug_info    0x00002528      0x9e9 ./os_core/os_flag.o
+ .debug_info    0x00002f11      0x665 ./os_core/os_mbox.o
+ .debug_info    0x00003576      0x446 ./os_core/os_mem.o
+ .debug_info    0x000039bc      0x73e ./os_core/os_mutex.o
+ .debug_info    0x000040fa      0x8a8 ./os_core/os_q.o
+ .debug_info    0x000049a2      0x63f ./os_core/os_sem.o
+ .debug_info    0x00004fe1      0xa53 ./os_core/os_task.o
+ .debug_info    0x00005a34      0x58a ./os_core/os_time.o
+ .debug_info    0x00005fbe      0x80c ./os_core/ucos_ii.o
+ .debug_info    0x000067ca       0x63 ./lab12-isr-wrappers.o
+ .debug_info    0x0000682d      0x556 ./lab12.o
+ .debug_info    0x00006d83      0x150 ../../BSP/Debug\libBSP.a(leds.o)
+ .debug_info    0x00006ed3      0x10d ../../BSP/Debug\libBSP.a(segs.o)
+
+.debug_abbrev   0x00000000     0x132e
+ .debug_abbrev  0x00000000       0x14 ./os_port/os_cpu_a.o
+ .debug_abbrev  0x00000014      0x117 ./os_port/os_cpu_c.o
+ .debug_abbrev  0x0000012b      0x220 ./os_core/os_core.o
+ .debug_abbrev  0x0000034b      0x114 ./os_core/os_dbg_r.o
+ .debug_abbrev  0x0000045f      0x193 ./os_core/os_flag.o
+ .debug_abbrev  0x000005f2      0x15f ./os_core/os_mbox.o
+ .debug_abbrev  0x00000751      0x160 ./os_core/os_mem.o
+ .debug_abbrev  0x000008b1      0x17d ./os_core/os_mutex.o
+ .debug_abbrev  0x00000a2e      0x176 ./os_core/os_q.o
+ .debug_abbrev  0x00000ba4      0x167 ./os_core/os_sem.o
+ .debug_abbrev  0x00000d0b      0x17e ./os_core/os_task.o
+ .debug_abbrev  0x00000e89      0x119 ./os_core/os_time.o
+ .debug_abbrev  0x00000fa2       0xc5 ./os_core/ucos_ii.o
+ .debug_abbrev  0x00001067       0x14 ./lab12-isr-wrappers.o
+ .debug_abbrev  0x0000107b      0x151 ./lab12.o
+ .debug_abbrev  0x000011cc       0xaf ../../BSP/Debug\libBSP.a(leds.o)
+ .debug_abbrev  0x0000127b       0xb3 ../../BSP/Debug\libBSP.a(segs.o)
+
+.debug_aranges  0x00000000      0x200
+ .debug_aranges
+                0x00000000       0x20 ./os_port/os_cpu_a.o
+ .debug_aranges
+                0x00000020       0x20 ./os_port/os_cpu_c.o
+ .debug_aranges
+                0x00000040       0x20 ./os_core/os_core.o
+ .debug_aranges
+                0x00000060       0x20 ./os_core/os_dbg_r.o
+ .debug_aranges
+                0x00000080       0x20 ./os_core/os_flag.o
+ .debug_aranges
+                0x000000a0       0x20 ./os_core/os_mbox.o
+ .debug_aranges
+                0x000000c0       0x20 ./os_core/os_mem.o
+ .debug_aranges
+                0x000000e0       0x20 ./os_core/os_mutex.o
+ .debug_aranges
+                0x00000100       0x20 ./os_core/os_q.o
+ .debug_aranges
+                0x00000120       0x20 ./os_core/os_sem.o
+ .debug_aranges
+                0x00000140       0x20 ./os_core/os_task.o
+ .debug_aranges
+                0x00000160       0x20 ./os_core/os_time.o
+ .debug_aranges
+                0x00000180       0x20 ./lab12-isr-wrappers.o
+ .debug_aranges
+                0x000001a0       0x20 ./lab12.o
+ .debug_aranges
+                0x000001c0       0x20 ../../BSP/Debug\libBSP.a(leds.o)
+ .debug_aranges
+                0x000001e0       0x20 ../../BSP/Debug\libBSP.a(segs.o)
+
+.debug_macinfo  0x00000000    0x3b26f
+ .debug_macinfo
+                0x00000000     0x3a67 ./os_port/os_cpu_c.o
+ .debug_macinfo
+                0x00003a67     0x3a59 ./os_core/os_core.o
+ .debug_macinfo
+                0x000074c0     0x3a51 ./os_core/os_dbg_r.o
+ .debug_macinfo
+                0x0000af11     0x3a51 ./os_core/os_flag.o
+ .debug_macinfo
+                0x0000e962     0x3a51 ./os_core/os_mbox.o
+ .debug_macinfo
+                0x000123b3     0x3a51 ./os_core/os_mem.o
+ .debug_macinfo
+                0x00015e04     0x3aab ./os_core/os_mutex.o
+ .debug_macinfo
+                0x000198af     0x3a51 ./os_core/os_q.o
+ .debug_macinfo
+                0x0001d300     0x3a51 ./os_core/os_sem.o
+ .debug_macinfo
+                0x00020d51     0x3a51 ./os_core/os_task.o
+ .debug_macinfo
+                0x000247a2     0x3a51 ./os_core/os_time.o
+ .debug_macinfo
+                0x000281f3     0x3a6b ./os_core/ucos_ii.o
+ .debug_macinfo
+                0x0002bc5e     0x666e ./lab12.o
+ .debug_macinfo
+                0x000322cc     0x432c ../../BSP/Debug\libBSP.a(leds.o)
+ .debug_macinfo
+                0x000365f8     0x4c77 ../../BSP/Debug\libBSP.a(segs.o)
+
+.debug_loc      0x00000000     0x15d4
+ .debug_loc     0x00000000      0x1b8 ./os_port/os_cpu_c.o
+ .debug_loc     0x000001b8      0x554 ./os_core/os_core.o
+ .debug_loc     0x0000070c       0x2c ./os_core/os_dbg_r.o
+ .debug_loc     0x00000738      0x23c ./os_core/os_flag.o
+ .debug_loc     0x00000974      0x134 ./os_core/os_mbox.o
+ .debug_loc     0x00000aa8      0x134 ./os_core/os_mem.o
+ .debug_loc     0x00000bdc      0x108 ./os_core/os_mutex.o
+ .debug_loc     0x00000ce4      0x1b8 ./os_core/os_q.o
+ .debug_loc     0x00000e9c      0x134 ./os_core/os_sem.o
+ .debug_loc     0x00000fd0      0x210 ./os_core/os_task.o
+ .debug_loc     0x000011e0       0xdc ./os_core/os_time.o
+ .debug_loc     0x000012bc      0x18c ./lab12.o
+ .debug_loc     0x00001448       0xdc ../../BSP/Debug\libBSP.a(leds.o)
+ .debug_loc     0x00001524       0xb0 ../../BSP/Debug\libBSP.a(segs.o)
+
+.debug_pubnames
+                0x00000000      0xfd7
+ .debug_pubnames
+                0x00000000       0xcd ./os_port/os_cpu_c.o
+ .debug_pubnames
+                0x000000cd      0x3b2 ./os_core/os_core.o
+ .debug_pubnames
+                0x0000047f      0x30b ./os_core/os_dbg_r.o
+ .debug_pubnames
+                0x0000078a       0xd0 ./os_core/os_flag.o
+ .debug_pubnames
+                0x0000085a       0x82 ./os_core/os_mbox.o
+ .debug_pubnames
+                0x000008dc       0x7c ./os_core/os_mem.o
+ .debug_pubnames
+                0x00000958       0x76 ./os_core/os_mutex.o
+ .debug_pubnames
+                0x000009ce       0x98 ./os_core/os_q.o
+ .debug_pubnames
+                0x00000a66       0x77 ./os_core/os_sem.o
+ .debug_pubnames
+                0x00000add       0xe5 ./os_core/os_task.o
+ .debug_pubnames
+                0x00000bc2       0x62 ./os_core/os_time.o
+ .debug_pubnames
+                0x00000c24      0x204 ./os_core/ucos_ii.o
+ .debug_pubnames
+                0x00000e28      0x101 ./lab12.o
+ .debug_pubnames
+                0x00000f29       0x60 ../../BSP/Debug\libBSP.a(leds.o)
+ .debug_pubnames
+                0x00000f89       0x4e ../../BSP/Debug\libBSP.a(segs.o)
+
+.debug_pubtypes
+                0x00000000      0xc72
+ .debug_pubtypes
+                0x00000000       0xd4 ./os_port/os_cpu_c.o
+ .debug_pubtypes
+                0x000000d4      0x14f ./os_core/os_core.o
+ .debug_pubtypes
+                0x00000223      0x12f ./os_core/os_dbg_r.o
+ .debug_pubtypes
+                0x00000352       0xf4 ./os_core/os_flag.o
+ .debug_pubtypes
+                0x00000446       0xf6 ./os_core/os_mbox.o
+ .debug_pubtypes
+                0x0000053c       0x88 ./os_core/os_mem.o
+ .debug_pubtypes
+                0x000005c4       0xf8 ./os_core/os_mutex.o
+ .debug_pubtypes
+                0x000006bc      0x102 ./os_core/os_q.o
+ .debug_pubtypes
+                0x000007be       0xf4 ./os_core/os_sem.o
+ .debug_pubtypes
+                0x000008b2       0xf4 ./os_core/os_task.o
+ .debug_pubtypes
+                0x000009a6       0xd4 ./os_core/os_time.o
+ .debug_pubtypes
+                0x00000a7a      0x12f ./os_core/ucos_ii.o
+ .debug_pubtypes
+                0x00000ba9       0x86 ./lab12.o
+ .debug_pubtypes
+                0x00000c2f       0x27 ../../BSP/Debug\libBSP.a(leds.o)
+ .debug_pubtypes
+                0x00000c56       0x1c ../../BSP/Debug\libBSP.a(segs.o)
+
+.debug_str      0x00000000     0x1208
+ .debug_str     0x00000000      0x3a7 ./os_port/os_cpu_c.o
+                                0x3c5 (size before relaxing)
+ .debug_str     0x000003a7      0x482 ./os_core/os_core.o
+                                0x7ab (size before relaxing)
+ .debug_str     0x00000829      0x255 ./os_core/os_dbg_r.o
+                                0x79d (size before relaxing)
+ .debug_str     0x00000a7e      0x138 ./os_core/os_flag.o
+                                0x4d9 (size before relaxing)
+ .debug_str     0x00000bb6       0x95 ./os_core/os_mbox.o
+                                0x3ea (size before relaxing)
+ .debug_str     0x00000c4b       0xdc ./os_core/os_mem.o
+                                0x20d (size before relaxing)
+ .debug_str     0x00000d27       0xb0 ./os_core/os_mutex.o
+                                0x43f (size before relaxing)
+ .debug_str     0x00000dd7       0x9b ./os_core/os_q.o
+                                0x44f (size before relaxing)
+ .debug_str     0x00000e72       0x86 ./os_core/os_sem.o
+                                0x3db (size before relaxing)
+ .debug_str     0x00000ef8       0xff ./os_core/os_task.o
+                                0x4ed (size before relaxing)
+ .debug_str     0x00000ff7       0x79 ./os_core/os_time.o
+                                0x3b9 (size before relaxing)
+ .debug_str     0x00001070       0x15 ./os_core/ucos_ii.o
+                                0x55d (size before relaxing)
+ .debug_str     0x00001085       0xdf ./lab12.o
+                                0x217 (size before relaxing)
+ .debug_str     0x00001164       0x5b ../../BSP/Debug\libBSP.a(leds.o)
+                                 0xe4 (size before relaxing)
+ .debug_str     0x000011bf       0x49 ../../BSP/Debug\libBSP.a(segs.o)
+                                 0xe2 (size before relaxing)
+
+.debug_frame    0x00000000     0x10e0
+ .debug_frame   0x00000000      0x150 ./os_port/os_cpu_c.o
+ .debug_frame   0x00000150      0x3f0 ./os_core/os_core.o
+ .debug_frame   0x00000540       0x30 ./os_core/os_dbg_r.o
+ .debug_frame   0x00000570      0x1b0 ./os_core/os_flag.o
+ .debug_frame   0x00000720       0xf0 ./os_core/os_mbox.o
+ .debug_frame   0x00000810       0xf0 ./os_core/os_mem.o
+ .debug_frame   0x00000900       0xd0 ./os_core/os_mutex.o
+ .debug_frame   0x000009d0      0x150 ./os_core/os_q.o
+ .debug_frame   0x00000b20       0xf0 ./os_core/os_sem.o
+ .debug_frame   0x00000c10      0x190 ./os_core/os_task.o
+ .debug_frame   0x00000da0       0xb0 ./os_core/os_time.o
+ .debug_frame   0x00000e50      0x130 ./lab12.o
+ .debug_frame   0x00000f80       0xb0 ../../BSP/Debug\libBSP.a(leds.o)
+ .debug_frame   0x00001030       0x90 ../../BSP/Debug\libBSP.a(segs.o)
+ .debug_frame   0x000010c0       0x20 c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a(_udivsi3.o)

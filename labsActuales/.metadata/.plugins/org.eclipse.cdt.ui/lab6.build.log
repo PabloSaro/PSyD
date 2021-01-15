@@ -1,0 +1,11 @@
+15:38:47 **** Build of configuration Debug for project lab6 ****
+cs-make all 
+'Invoking: ARM Sourcery Windows GNU Print Size'
+arm-none-eabi-size  --format=berkeley lab6.elf
+   text	   data	    bss	    dec	    hex	filename
+  15028	      0	      8	  15036	   3abc	lab6.elf
+'Finished building: lab6.siz'
+' '
+
+15:38:48 Build Finished (took 373ms)
+

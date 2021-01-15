@@ -1,0 +1,267 @@
+/*
+#include <s3c44b0x.h>
+#include <s3cev40.h>
+#include <system.h>
+#include <uart.h>
+
+static void port_init( void );
+static void install_dummy_isr( void );
+static void show_sys_info( void );
+
+void isr_SWI_dummy( void)        __attribute__ ((interrupt ("SWI")));
+void isr_UNDEF_dummy( void )     __attribute__ ((interrupt ("UNDEF")));
+void isr_IRQ_dummy( void )       __attribute__ ((interrupt ("IRQ")));
+void isr_FIQ_dummy( void )       __attribute__ ((interrupt ("FIQ")));
+void isr_PABORT_dummy( void )    __attribute__ ((interrupt ("ABORT")));
+void isr_DABORT_dummy( void )    __attribute__ ((interrupt ("ABORT")));
+void isr_ADC_dummy( void )       __attribute__ ((interrupt ("IRQ")));
+void isr_RTC_dummy( void )       __attribute__ ((interrupt ("IRQ")));
+ //   ...
+void isr_USB_dummy( void )       __attribute__ ((interrupt ("IRQ")));
+
+void sys_init( void )
+{
+
+    WTCON  = 0;    
+    INTMSK = ~0;
+
+    LOCKTIME = ...;
+    PLLCON   = ...;
+    CLKSLOW  = ...;
+    CLKCON   = ...;
+    
+    SBUSCON = ...;
+    
+    SYSCFG = ...;
+    
+    I_PMST = ...;
+    I_PSLV = ...;
+    INTMOD = ...;
+    install_dummy_isr();
+    EXTINTPND = ...;
+    I_ISPC = ...;
+    INTCON = ...;
+
+    SET_OPMODE( SVCMODE );
+    SET_IRQFLAG( 0 );
+    SET_FIQFLAG( 1 );
+
+    port_init();
+
+    uart0_init();
+
+    show_sys_info();
+}
+
+static void port_init( void )
+{
+    PDATA = ~0;
+    PCONA = ...;
+
+    PDATB = ~0;
+    PCONB = ...;
+
+    PDATC = ~0;
+    PCONC = ...;
+    PUPC  = ...;
+
+    PDATD = ~0;
+    PCOND = ...;
+    PUPD  = ...;
+    
+    PDATE = ~0;
+    PCONE = ...;
+    PUPE  = ...;
+
+    PDATF = ~0;
+    PCONF = ...;
+    PUPF  = ...;
+    
+    PDATG = ~0;
+    PCONG = ...;
+    PUPG  = ...;
+
+    SPUCR = ...;
+    
+    EXTINT = ...;
+}
+
+static void install_dummy_isr( void )
+{ 
+    ...
+    pISR_TICK = (uint32) isr_TICK_dummy;
+    ...
+}        
+
+void isr_SWI_dummy( void )
+{
+    ...
+}
+
+void isr_UNDEF_dummy( void )
+{
+    ...
+}
+
+void isr_IRQ_dummy( void )
+{
+    ...
+}
+
+void isr_FIQ_dummy( void )
+{
+    ...
+}
+
+void isr_PABORT_dummy( void )
+{
+    ...
+}
+
+void isr_DABORT_dummy( void )
+{
+    ...
+}
+
+void isr_ADC_dummy( void )
+{
+    ...
+}
+
+void isr_RTC_dummy( void )
+{
+    ...
+}
+
+void isr_UTXD1_dummy( void )
+{
+    ...
+}
+
+void isr_UTXD0_dummy( void )
+{
+    ...
+}
+
+void isr_SIO_dummy( void )
+{
+    ...
+}
+
+void isr_IIC_dummy( void )
+{
+    ...
+}
+
+void isr_URXD1_dummy( void )
+{
+    ...
+}
+
+void isr_URXD0_dummy( void )
+{
+    ...
+}
+
+void isr_TIMER5_dummy( void )
+{
+    ...
+}
+
+void isr_TIMER4_dummy( void )
+{
+    ...
+}
+
+void isr_TIMER3_dummy( void )
+{
+    ...
+}
+
+void isr_TIMER2_dummy( void )
+{
+    ...
+}
+
+void isr_TIMER1_dummy( void )
+{
+    ...
+}
+
+void isr_TIMER0_dummy( void )
+{
+    ...
+}
+
+void isr_UERR01_dummy( void )
+{
+    ...
+}
+
+void isr_WDT_dummy( void )
+{
+    ...
+}
+
+void isr_BDMA1_dummy( void )
+{
+    ...
+}
+
+void isr_BDMA0_dummy( void )
+{
+    ...
+}
+
+void isr_ZDMA1_dummy( void )
+{
+    ...
+}
+
+void isr_ZDMA0_dummy( void )
+{
+    ...
+}
+
+void isr_TICK_dummy( void )
+{
+    uart0_puts( "\n\n*** ERROR FATAL: ejecutando isr_TICK_dummy" );
+    SEGS = 0x75;
+    while( 1 );
+}
+
+void isr_PB_dummy( void )
+{
+    ...
+}
+
+void isr_ETHERNET_dummy( void )
+{
+    ...
+}
+
+void isr_TS_dummy( void )
+{
+    ...
+}
+
+void isr_KEYPAD_dummy( void )
+{
+    ...
+}
+
+void isr_USB_dummy( void )
+{
+    ...
+}
+
+static void show_sys_info( void )
+{
+    ...
+}
+
+inline void sleep( void )
+{
+    CLKCON |= (1 << 2);    // Pone a la CPU en estado IDLE
+}
+*/

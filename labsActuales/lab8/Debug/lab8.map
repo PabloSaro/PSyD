@@ -1,0 +1,92 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ./lab8.o
+LOAD ../../BSP/Debug\libBSP.a
+START GROUP
+LOAD c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2\libgcc.a
+LOAD c:/software/electronica/arm/eclipsearm/sourcery-g++-lite-arm-2011.03/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib\libc.a
+END GROUP
+                0x0c100000                . = 0xc100000
+
+.text           0x0c100000      0x60c
+ *(.text)
+ .text          0x0c100000      0x60c ./lab8.o
+                0x0c100000                main
+
+.glue_7         0x0c10060c        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x0c10060c        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x0c10060c        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x0c10060c        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.rodata         0x0c10060c      0x29c
+ *(.rodata)
+ .rodata        0x0c10060c      0x29c ./lab8.o
+
+.data           0x0c1008a8        0x0
+ *(.data)
+ .data          0x0c1008a8        0x0 ./lab8.o
+
+.bss            0x0c1008a8        0x0
+ *(.bss)
+ .bss           0x0c1008a8        0x0 ./lab8.o
+                0x0c1008a8                end = .
+OUTPUT(lab8.elf elf32-littlearm)
+
+.debug_abbrev   0x00000000       0x7e
+ .debug_abbrev  0x00000000       0x7e ./lab8.o
+
+.debug_info     0x00000000      0x10a
+ .debug_info    0x00000000      0x10a ./lab8.o
+
+.debug_line     0x00000000      0x196
+ .debug_line    0x00000000      0x196 ./lab8.o
+
+.debug_macinfo  0x00000000     0x53cd
+ .debug_macinfo
+                0x00000000     0x53cd ./lab8.o
+
+.debug_loc      0x00000000       0x2c
+ .debug_loc     0x00000000       0x2c ./lab8.o
+
+.debug_pubnames
+                0x00000000       0x1b
+ .debug_pubnames
+                0x00000000       0x1b ./lab8.o
+
+.debug_pubtypes
+                0x00000000       0x32
+ .debug_pubtypes
+                0x00000000       0x32 ./lab8.o
+
+.debug_aranges  0x00000000       0x20
+ .debug_aranges
+                0x00000000       0x20 ./lab8.o
+
+.debug_str      0x00000000       0xc0
+ .debug_str     0x00000000       0xc0 ./lab8.o
+                                 0xd9 (size before relaxing)
+
+.comment        0x00000000       0x2a
+ .comment       0x00000000       0x2a ./lab8.o
+                                 0x2b (size before relaxing)
+
+.ARM.attributes
+                0x00000000       0x32
+ .ARM.attributes
+                0x00000000       0x32 ./lab8.o
+
+.debug_frame    0x00000000       0x30
+ .debug_frame   0x00000000       0x30 ./lab8.o

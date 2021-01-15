@@ -1,0 +1,18 @@
+11:58:24 **** Build of configuration Debug for project lab1 ****
+cs-make all 
+'Building file: ../lab1.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -O0 -Wall -Wa,-adhlns="lab1.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"lab1.d" -MT"lab1.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "lab1.o" "../lab1.c"
+../lab1.c:21:6: warning: return type of 'main' is not 'int'
+../lab1.c: In function 'main':
+../lab1.c:27:5: error: expected expression before '...' token
+../lab1.c:34:21: error: expected expression before '...' token
+../lab1.c:37:21: error: expected expression before '...' token
+../lab1.c:37:28: error: expected expression before '...' token
+../lab1.c:39:17: error: expected expression before '...' token
+../lab1.c:44:21: error: expected expression before '...' token
+../lab1.c:44:28: error: expected expression before '...' token
+cs-make: *** [lab1.o] Error 1
+
+11:58:25 Build Finished (took 438ms)
+

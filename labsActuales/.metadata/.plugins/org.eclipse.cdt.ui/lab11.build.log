@@ -1,0 +1,68 @@
+11:58:27 **** Build of configuration Debug for project lab11 ****
+cs-make all 
+'Building file: ../bootloader.asm'
+'Invoking: ARM Sourcery Windows GCC Assembler'
+arm-none-eabi-gcc -x assembler-with-cpp -I"..\..\BSP\include" -Wall -Wa,-adhlns="bootloader.o.lst" -c -fmessage-length=0 -MMD -MP -MF"bootloader.d" -MT"bootloader.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "bootloader.o" "../bootloader.asm"
+'Finished building: ../bootloader.asm'
+' '
+'Building file: ../lab11.c'
+'Invoking: ARM Sourcery Windows GCC C Compiler'
+arm-none-eabi-gcc -I"..\..\BSP\include" -O0 -Wall -Wa,-adhlns="lab11.o.lst" -c -fmessage-length=0 -mapcs-frame -MMD -MP -MF"lab11.d" -MT"lab11.d" -mcpu=arm7tdmi -g3 -gdwarf-2 -o "lab11.o" "../lab11.c"
+../lab11.c:25:6: warning: return type of 'main' is not 'int'
+'Finished building: ../lab11.c'
+' '
+'Building target: lab11.elf'
+'Invoking: ARM Sourcery Windows GCC C Linker'
+arm-none-eabi-gcc -T"../lab11.ld" -nostartfiles -L../../BSP/Debug -Wl,-Map,lab11.map -mcpu=arm7tdmi -g3 -gdwarf-2 -o "lab11.elf"  ./bootloader.o ./lab11.o   -lBSP
+./lab11.o: In function `main':
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:29: undefined reference to `sys_init'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:30: undefined reference to `uart0_init'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:31: undefined reference to `rtc_init'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:35: undefined reference to `rtc_gettime'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:37: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:38: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:39: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:40: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:41: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:42: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:43: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:44: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:45: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:46: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:47: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:48: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:52: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:53: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:54: undefined reference to `uart0_getint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:55: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:56: undefined reference to `uart0_getint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:57: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:58: undefined reference to `uart0_getint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:59: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:60: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:61: undefined reference to `uart0_getint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:62: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:63: undefined reference to `uart0_getint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:64: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:65: undefined reference to `uart0_getint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:67: undefined reference to `rtc_puttime'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:71: undefined reference to `rtc_open'
+./lab11.o: In function `isr_tick':
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:82: undefined reference to `rtc_gettime'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:84: undefined reference to `uart0_puts'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:85: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:86: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:87: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:88: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:89: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:90: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:91: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:92: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:93: undefined reference to `uart0_putint'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:94: undefined reference to `uart0_putchar'
+C:\hlocal\PSyD\labs\lab11\Debug/../lab11.c:95: undefined reference to `uart0_putint'
+collect2: ld returned 1 exit status
+cs-make: *** [lab11.elf] Error 1
+
+11:58:28 Build Finished (took 1s.282ms)
+

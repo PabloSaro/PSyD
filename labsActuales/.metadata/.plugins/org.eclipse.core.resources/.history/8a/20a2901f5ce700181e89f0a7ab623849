@@ -1,0 +1,87 @@
+#include <s3c44b0x.h>
+#include <s3cev40.h>
+#include <pbs.h>
+#include <timers.h>
+
+extern void isr_PB_dummy( void );
+
+void pbs_init( void )
+{
+    timers_init();
+}
+
+uint8 pb_scan( void )
+{
+    if(~(1<<6) | PDATG)//mal
+        return PB_LEFT;
+    else if( ~(1<<7) | PDATG )
+        return PB_RIGHT;
+    else
+        return PB_FAILURE;
+}
+
+uint8 pb_status( uint8 scancode )
+{
+    ...
+}
+
+void pb_wait_keydown( uint8 scancode )
+{
+    ...  
+}
+
+void pb_wait_keyup( uint8 scancode )
+{
+     ...
+}
+
+void pb_wait_any_keydown( void )
+{
+    ...
+}
+
+void pb_wait_any_keyup( void )
+{
+    ...
+}
+
+uint8 pb_getchar( void )
+{
+    ...
+}
+
+uint8 pb_getchartime( uint16 *ms )
+{
+    uint8 scancode;
+    
+    while( ... );
+    timer3_start();
+    sw_delay_ms( PB_KEYDOWN_DELAY );
+    
+    scancode = pb_scan();
+    
+    while( ... );
+    *ms = timer3_stop() / 10;
+    sw_delay_ms( PB_KEYUP_DELAY );
+
+    return scancode;
+}
+
+uint8 pb_timeout_getchar( uint16 ms )
+{
+    ...
+}
+
+void pbs_open( void (*isr)(void) )
+{
+    pISR_PB   = (uint8)isr;
+    EXTINTPND = 0;
+    I_ISPC    = (1<<21);
+    INTMSK   &= ~(1 << 26 | 1 << 21);
+}
+
+void pbs_close( void )
+{
+    INTMSK  |= (1 << 21);
+    pISR_PB  = (uint32)isr_PB_dummy ;
+}
